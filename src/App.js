@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
+import { StyledContainer } from "./components/Container/Container.styles";
 import "./App.css";
 
 const GlobalStyle = createGlobalStyle`
@@ -13,6 +14,8 @@ const GlobalStyle = createGlobalStyle`
 
 body{
   font-family: 'Poppins', sans-serif;
+  background:#191B1F;
+  color:#fff;
 }
 
 ul{
@@ -32,32 +35,30 @@ class App extends React.Component {
     return (
       <Router>
         <GlobalStyle />
-        <div className="App">
-          <div>
-            <nav>
-              <ul>
-                <li>
-                  <Link exact to="/">
-                    Coins
-                  </Link>
-                </li>
-                <li>
-                  <Link exact to="/portfolio">
-                    Portfolio
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-            <Switch>
-              <Route path="/portfolio">
-                <h1>Portfolio</h1>
-              </Route>
-              <Route path="/">
-                <h1>Coins</h1>
-              </Route>
-            </Switch>
-          </div>
-        </div>
+        <StyledContainer>
+          <nav>
+            <ul>
+              <li>
+                <Link exact to="/">
+                  Coins
+                </Link>
+              </li>
+              <li>
+                <Link exact to="/portfolio">
+                  Portfolio
+                </Link>
+              </li>
+            </ul>
+          </nav>
+          <Switch>
+            <Route path="/portfolio">
+              <h1>Portfolio</h1>
+            </Route>
+            <Route path="/">
+              <h1>Coins</h1>
+            </Route>
+          </Switch>
+        </StyledContainer>
       </Router>
     );
   }
