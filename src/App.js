@@ -1,6 +1,14 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useHistory,
+} from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
+import { CoinsPage } from "./pages/CoinsPage";
+import { PortfolioPage } from "./pages/PortfolioPage";
 import { StyledContainer } from "./components/Container/Container.styles";
 import "./App.css";
 
@@ -31,6 +39,7 @@ a{
 
 class App extends React.Component {
   state = {};
+
   render() {
     return (
       <Router>
@@ -51,12 +60,11 @@ class App extends React.Component {
             </ul>
           </nav>
           <Switch>
-            <Route path="/portfolio">
-              <h1>Portfolio</h1>
-            </Route>
-            <Route path="/">
-              <h1>Coins</h1>
-            </Route>
+            <Route
+              path="/portfolio"
+              render={(props) => <PortfolioPage {...props} />}
+            />
+            <Route path="/" render={(props) => <CoinsPage {...props} />} />
           </Switch>
         </StyledContainer>
       </Router>
