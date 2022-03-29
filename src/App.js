@@ -9,7 +9,9 @@ import {
 import { createGlobalStyle } from "styled-components";
 import { CoinsPage } from "./pages/CoinsPage";
 import { PortfolioPage } from "./pages/PortfolioPage";
-import { StyledContainer } from "./components/Container/Container.styles";
+import { StyledContainer, StyledNavList, StyledNavbar, StyledLink } from "./ui";
+import { ReactComponent as SearchLogo } from "./icons/search.svg";
+import { SearchContainer } from "./components/SearchContainer";
 import "./App.css";
 
 const GlobalStyle = createGlobalStyle`
@@ -45,20 +47,21 @@ class App extends React.Component {
       <Router>
         <GlobalStyle />
         <StyledContainer>
-          <nav>
-            <ul>
+          <StyledNavbar>
+            <StyledNavList>
               <li>
-                <Link exact to="/">
+                <StyledLink exact to="/">
                   Coins
-                </Link>
+                </StyledLink>
               </li>
               <li>
-                <Link exact to="/portfolio">
+                <StyledLink exact to="/portfolio">
                   Portfolio
-                </Link>
+                </StyledLink>
               </li>
-            </ul>
-          </nav>
+              <SearchContainer />
+            </StyledNavList>
+          </StyledNavbar>
           <Switch>
             <Route
               path="/portfolio"
