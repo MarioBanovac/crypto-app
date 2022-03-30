@@ -55,8 +55,29 @@ export const StyledSearchContainer = styled.div`
   padding-bottom: 20.4px;
   padding-left: 21.4px;
 
-  & > input {
+  input {
+    color: #fafbfb;
     background: none;
     border: 0;
+    margin-left: 10px;
+    padding-top: 3px;
+    caret-color: #fafbfb;
+    font-size: 18px;
+  }
+
+  input::-webkit-search-decoration,
+  input::-webkit-search-cancel-button,
+  input::-webkit-search-results-button,
+  input::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  input::placeholder {
+    color: #fafbfb;
+    font-size: 18px;
   }
 `;
