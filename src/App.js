@@ -1,43 +1,16 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useHistory,
-} from "react-router-dom";
-import { createGlobalStyle } from "styled-components";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { CoinsPage } from "./pages/CoinsPage";
 import { PortfolioPage } from "./pages/PortfolioPage";
-import { StyledContainer, StyledNavList, StyledNavbar, StyledLink } from "./ui";
-import { ReactComponent as SearchLogo } from "./icons/search.svg";
+import {
+  GlobalStyle,
+  StyledContainer,
+  StyledNavList,
+  StyledNavbar,
+  StyledLink,
+} from "./ui";
 import { SearchContainer } from "./components/SearchContainer";
 import "./App.css";
-
-const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body{
-  font-family: 'Poppins', sans-serif;
-  background:#191B1F;
-  color:#fff;
-}
-
-ul{
-  list-style-type:none;
-}
-
-a{
-  cursor:pointer;
-  text-decoration:none;
-  color:currentColor;
-}
-`;
 
 class App extends React.Component {
   state = {};

@@ -1,5 +1,30 @@
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { NavLink } from "react-router-dom";
+
+export const GlobalStyle = createGlobalStyle`
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-family: 'Poppins', sans-serif;
+  background:#191B1F;
+  color:#fff;
+}
+
+ul{
+  list-style-type:none;
+}
+
+a{
+  cursor:pointer;
+  text-decoration:none;
+  color:currentColor;
+}
+`;
 
 export const StyledContainer = styled.div`
   max-width: 1920px;
@@ -24,10 +49,10 @@ export const StyledNavList = styled.ul`
   height: 100%;
   background: #191b1f;
   padding-left: 95px;
-  li:nth-child(1) {
+  & > li:nth-child(1) {
     margin-right: 31px;
   }
-  li:nth-child(2) {
+  & > li:nth-child(2) {
     margin-right: auto;
   }
 `;
@@ -44,16 +69,15 @@ export const StyledLink = styled(NavLink)`
 `;
 
 export const StyledSearchContainer = styled.div`
-  display: flex;
   width: 510px;
   height: 63px;
   background: #2c2f36;
   border-radius: 10px;
   margin-right: 27px;
-  align-items: center;
   padding-top: 19.5px;
   padding-bottom: 20.4px;
   padding-left: 21.4px;
+  position: relative;
 
   input {
     color: #fafbfb;
@@ -85,4 +109,46 @@ export const StyledSearchContainer = styled.div`
 export const StyledForm = styled.form`
   display: flex;
   align-items: center;
+`;
+
+export const StyledSearchList = styled.ul`
+  position: absolute;
+  content: "";
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2c2f36;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  border-radius: 0 0 8px 8px;
+  width: 300px;
+  font-size: 18px;
+  padding-bottom: 6px;
+  li {
+    cursor: pointer;
+    padding: 10px 0;
+  }
+
+  li:hover {
+    background: #191b1f;
+    width: 90%;
+    border-radius: 8px;
+  }
+`;
+
+export const StyledLoadingList = styled.div`
+  position: absolute;
+  content: "";
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2c2f36;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: 0 0 8px 8px;
+  width: 300px;
+  font-size: 18px;
 `;

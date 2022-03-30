@@ -1,15 +1,22 @@
 import React from "react";
 import axios from "axios";
 import { ReactComponent as SearchLogo } from "../../icons/search.svg";
-import { StyledSearchContainer, StyledForm } from "../../ui";
+import { StyledSearchContainer, StyledForm, StyledLoadingList } from "../../ui";
+import { SearchList } from "../SearchList";
 
 export class SearchContainer extends React.Component {
   state = {
-    value: "",
+    isLoading: false,
+    list: [],
   };
 
   handleChange = ({ target: { value } }) => {
-    this.getUser(value);
+    let timer;
+    clearTimeout(timer);
+    if (!value) {
+      timer = setTimeout(() => this.setState({ list: [] }), 1200);
+    }
+    value && this.getUser(value);
   };
 
   handleSubmit = (e) => {
@@ -18,15 +25,22 @@ export class SearchContainer extends React.Component {
 
   getUser = async (searchTerm) => {
     try {
-      const response = await axios(
+      this.setState({ isLoading: true });
+      const { data } = await axios(
         `https://crypto-app-server.herokuapp.com/coins/${searchTerm}`
       );
-      console.log(response);
+      this.setState({
+        isLoading: false,
+        list: data.map(({ name, id }) => {
+          return { name, id };
+        }),
+      });
     } catch (error) {
-      console.error(error);
+      console.error(`Failed to fetch data ${error}`);
     }
   };
   render() {
+    const { isLoading, list } = this.state;
     return (
       <StyledSearchContainer>
         <StyledForm onSubmit={this.handleSubmit}>
@@ -37,6 +51,11 @@ export class SearchContainer extends React.Component {
             placeholder="Search..."
           />
         </StyledForm>
+        {isLoading ? (
+          <StyledLoadingList>Loading list...</StyledLoadingList>
+        ) : (
+          <SearchList list={list} />
+        )}
       </StyledSearchContainer>
     );
   }
