@@ -81,3 +81,8 @@ export const StyledSearchContainer = styled.div`
     font-size: 18px;
   }
 `;
+
+export const StyledForm = styled.form`
+  display: flex;
+  align-items: center;
+`;
