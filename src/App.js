@@ -8,14 +8,40 @@ import {
   StyledNavList,
   StyledNavbar,
   StyledLink,
+  StyledCurrencyChanger,
+  StyledThemeChanger,
 } from "./ui";
 import { SearchContainer } from "./components/SearchContainer";
 import "./App.css";
 
 class App extends React.Component {
-  state = {};
+  state = {
+    currency: "USD",
+    currencySymbol: "$",
+  };
+
+  handleCurrencyChange = ({ target: { value } }) => {
+    switch (value) {
+      case "USD":
+        this.setState({ currency: value, currencySymbol: "$" });
+        break;
+      case "GBP":
+        this.setState({ currency: value, currencySymbol: "£" });
+        break;
+      case "EUR":
+        this.setState({ currency: value, currencySymbol: "€" });
+        break;
+      case "BTC":
+        this.setState({ currency: value, currencySymbol: "₿" });
+        break;
+      case "ETH":
+        this.setState({ currency: value, currencySymbol: "Ξ" });
+        break;
+    }
+  };
 
   render() {
+    const { currency, currencySymbol } = this.state;
     return (
       <Router>
         <GlobalStyle />
@@ -33,6 +59,12 @@ class App extends React.Component {
                 </StyledLink>
               </li>
               <SearchContainer />
+              <StyledCurrencyChanger
+                currency={currency}
+                currencySymbol={currencySymbol}
+                handleCurrencyChange={this.handleCurrencyChange}
+              />
+              <StyledThemeChanger />
             </StyledNavList>
           </StyledNavbar>
           <Switch>

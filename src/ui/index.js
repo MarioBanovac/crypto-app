@@ -1,6 +1,8 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { NavLink } from "react-router-dom";
-
+import { CurrencyChanger } from "../components/CurrencyChanger";
+import Polygon from "../icons/polygon.svg";
+import Theme from "../icons/theme.svg";
 export const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
 * {
@@ -151,4 +153,63 @@ export const StyledLoadingList = styled.div`
   border-radius: 0 0 8px 8px;
   width: 300px;
   font-size: 18px;
+`;
+
+export const StyledCurrencyChanger = styled(CurrencyChanger)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2c2f36;
+  gap: 12.5px;
+  width: 135px;
+  height: 63px;
+  border-radius: 10px;
+  font-size: 17px;
+  margin-right: 25px;
+
+  div:first-child {
+    background: red;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 33px;
+    height: 33px;
+    background: #191b1f;
+    font-size: 17px;
+    color: #00ff5f;
+  }
+
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: none;
+    border: none;
+    font-size: inherit;
+    padding-right: 17px;
+    color: #fff;
+    background-image: url(${Polygon});
+    background-repeat: no-repeat;
+    background-position: calc(100% - 3px) center;
+    background-size: 10px;
+  }
+
+  select:focus {
+    outline: none;
+  }
+  select option {
+    background: #2c2f36;
+  }
+`;
+
+export const StyledThemeChanger = styled.div`
+  width: 67px;
+  height: 63px;
+  background: #2c2f36;
+  border-radius: 10px;
+  background-image: url(${Theme});
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 3px;
 `;
