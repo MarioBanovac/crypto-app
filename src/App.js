@@ -16,8 +16,11 @@ import "./App.css";
 
 class App extends React.Component {
   state = {
-    currency: "USD",
-    currencySymbol: "$",
+    currency:
+      JSON.parse(localStorage.getItem("currencyDetails"))?.currency || "USD",
+    currencySymbol:
+      JSON.parse(localStorage.getItem("currencyDetails"))?.currencySymbol ||
+      "$",
   };
 
   handleCurrencyChange = ({ target: { value } }) => {

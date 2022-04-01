@@ -27,7 +27,7 @@ export class SearchContainer extends React.Component {
     try {
       this.setState({ isLoading: true });
       const { data } = await axios(
-        `https://crypto-app-server.herokuapp.com/coins/${searchTerm}`
+        `${process.env.REACT_APP_SERVER_ENDPOINT}/${searchTerm}`
       );
       this.setState({
         isLoading: false,
