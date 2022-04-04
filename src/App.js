@@ -2,17 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { CoinsPage } from "./pages/CoinsPage";
 import { PortfolioPage } from "./pages/PortfolioPage";
-import {
-  GlobalStyle,
-  StyledContainer,
-  StyledNavList,
-  StyledNavbar,
-  StyledLink,
-  StyledCurrencyChanger,
-  StyledThemeChanger,
-} from "./ui";
-import { SearchContainer } from "./components/SearchContainer";
-import "./App.css";
+import { GlobalStyle, StyledContainer } from "./ui";
+import { Navbar } from "./components/Navbar";
 
 class App extends React.Component {
   state = {
@@ -49,27 +40,11 @@ class App extends React.Component {
       <Router>
         <GlobalStyle />
         <StyledContainer>
-          <StyledNavbar>
-            <StyledNavList>
-              <li>
-                <StyledLink exact to="/">
-                  Coins
-                </StyledLink>
-              </li>
-              <li>
-                <StyledLink exact to="/portfolio">
-                  Portfolio
-                </StyledLink>
-              </li>
-              <SearchContainer />
-              <StyledCurrencyChanger
-                currency={currency}
-                currencySymbol={currencySymbol}
-                handleCurrencyChange={this.handleCurrencyChange}
-              />
-              <StyledThemeChanger />
-            </StyledNavList>
-          </StyledNavbar>
+          <Navbar
+            currency={currency}
+            currencySymbol={currencySymbol}
+            handleCurrencyChange={this.handleCurrencyChange}
+          />
           <Switch>
             <Route
               path="/portfolio"

@@ -1,6 +1,7 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { NavLink } from "react-router-dom";
 import { CurrencyChanger } from "../components/CurrencyChanger";
+import { MarketData } from "../components/MarketData";
 import Polygon from "../icons/polygon.svg";
 import Theme from "../icons/theme.svg";
 export const GlobalStyle = createGlobalStyle`
@@ -15,6 +16,7 @@ body{
   font-family: 'Poppins', sans-serif;
   background:#191B1F;
   color:#fff;
+  height:100vh;
 }
 
 ul{
@@ -45,12 +47,14 @@ export const StyledNavbar = styled.nav`
 `;
 
 export const StyledNavList = styled.ul`
+  position: relative;
   display: flex;
   align-items: center;
   width: 100%;
   height: 100%;
   background: #191b1f;
   padding-left: 95px;
+  border-radius: 10px 10px 0 0;
   & > li:nth-child(1) {
     margin-right: 31px;
   }
@@ -115,6 +119,7 @@ export const StyledForm = styled.form`
 
 export const StyledSearchList = styled.ul`
   position: absolute;
+  z-index: 100;
   content: "";
   top: 100%;
   left: 50%;
@@ -212,4 +217,60 @@ export const StyledThemeChanger = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   margin-right: 3px;
+`;
+
+export const StyledMarketData = styled(MarketData)`
+  font-size: 17px;
+  top: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 926px;
+  height: 55px;
+  border-radius: 0 0 10px 10px;
+  background: #191b1f;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 53px;
+  padding-right: 43px;
+
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+`;
+
+export const StyledCircle = styled.div`
+  height: ${({ height }) => (height ? height : "8px")};
+  width: ${({ width }) => (width ? width : "8px")};
+  background-color: ${({ background }) => (background ? background : "#fff")};
+  margin-right: ${({ marginRight }) => (marginRight ? marginRight : "13px")};
+  border-radius: 50%;
+  display: inline-block;
+`;
+
+export const StyledProgressContainer = styled.div`
+  position: relative;
+  width: ${({ width }) => width}px;
+  background-color: #2172e5;
+  height: 13px;
+  border-radius: 10px;
+  border: none;
+  margin-left: ${({ marginLeft }) => (marginLeft ? marginLeft : "0")}px;
+`;
+
+export const StyledProgress = styled.div`
+  height: 100%;
+  z-index: 1;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+  border: none;
+  background: #fff;
+  width: ${({ percent }) => percent}%;
+  min-width: ${({ percent }) => (percent < 2 ? "2" : percent)}%;
 `;
