@@ -2,6 +2,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import { NavLink } from "react-router-dom";
 import { CurrencyChanger } from "../components/CurrencyChanger";
 import { MarketData } from "../components/MarketData";
+import { PriceChartContainer } from "../components/PriceChartContainer";
 import Polygon from "../icons/polygon.svg";
 import Theme from "../icons/theme.svg";
 export const GlobalStyle = createGlobalStyle`
@@ -273,4 +274,49 @@ export const StyledProgress = styled.div`
   background: #fff;
   width: ${({ percent }) => percent}%;
   min-width: ${({ percent }) => (percent < 2 ? "2" : percent)}%;
+`;
+
+export const CoinsPageContainer = styled.div`
+  width: 100%;
+  margin-top: 79px;
+  padding-right: 99px;
+  padding-left: 95px;
+
+  h1 {
+    font-size: 22px;
+    text-align: left;
+    font-weight: 400;
+    margin-bottom: 32px;
+  }
+`;
+
+export const StyledPriceChartContainer = styled(PriceChartContainer)`
+  width: 833px;
+  height: 449px;
+  border-radius: 10px;
+  background: #191b1f;
+  padding-top: 16px;
+  padding-left: 21px;
+  text-align: left;
+  position: relative;
+
+  p {
+    margin-bottom: 4px;
+  }
+
+  p:first-of-type {
+    font-size: 22px;
+  }
+
+  p:nth-of-type(2n) {
+    font-size: 44px;
+  }
+
+  p:nth-of-type(3n) {
+    font-size: 22px;
+  }
+
+  div {
+    height: 70%;
+  }
 `;

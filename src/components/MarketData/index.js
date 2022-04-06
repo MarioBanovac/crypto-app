@@ -9,7 +9,7 @@ import {
   StyledProgressContainer,
   StyledProgress,
 } from "../../ui";
-import { nFormatter } from "../../utils/nFormatter";
+import { nFormatter } from "../../utils";
 
 export class MarketData extends React.Component {
   state = {
