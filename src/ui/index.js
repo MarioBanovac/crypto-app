@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { CurrencyChanger } from "../components/CurrencyChanger";
 import { MarketData } from "../components/MarketData";
 import { PriceChartContainer } from "../components/PriceChartContainer";
+import { VolumeChartContainer } from "../components/VolumeChartContainer";
 import Polygon from "../icons/polygon.svg";
 import Theme from "../icons/theme.svg";
 export const GlobalStyle = createGlobalStyle`
@@ -290,18 +291,26 @@ export const CoinsPageContainer = styled.div`
   }
 `;
 
+export const StyledChartsContainer = styled.div`
+  display: flex;
+  gap: 45px;
+`;
+
 export const StyledPriceChartContainer = styled(PriceChartContainer)`
+  display: flex;
+  flex-direction: column;
+
   width: 833px;
   height: 449px;
   border-radius: 10px;
   background: #191b1f;
   padding-top: 16px;
-  padding-left: 21px;
   text-align: left;
   position: relative;
 
   p {
     margin-bottom: 4px;
+    padding-left: 21px;
   }
 
   p:first-of-type {
@@ -318,5 +327,43 @@ export const StyledPriceChartContainer = styled(PriceChartContainer)`
 
   div {
     height: 70%;
+    align-self: center;
+    width: 90%;
+  }
+`;
+
+export const StyledVolumeChartContainer = styled(VolumeChartContainer)`
+  display: flex;
+  flex-direction: column;
+
+  width: 833px;
+  height: 449px;
+  border-radius: 10px;
+  background: #191b1f;
+  padding-top: 16px;
+  text-align: left;
+  position: relative;
+
+  p {
+    margin-bottom: 4px;
+    padding-left: 21px;
+  }
+
+  p:first-of-type {
+    font-size: 22px;
+  }
+
+  p:nth-of-type(2n) {
+    font-size: 44px;
+  }
+
+  p:nth-of-type(3n) {
+    font-size: 22px;
+  }
+
+  div {
+    height: 70%;
+    align-self: center;
+    width: 90%;
   }
 `;

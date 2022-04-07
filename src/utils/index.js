@@ -20,7 +20,7 @@ export const nFormatter = (num, digits) => {
     : "0";
 };
 
-export const overviewPriceFormatter = (num, digits) => {
+export const overviewFormatter = (num, digits) => {
   const lookup = [
     { value: 1, symbol: "" },
     { value: 1e3, symbol: "ths" },

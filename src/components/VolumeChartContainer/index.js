@@ -1,20 +1,20 @@
 import React from "react";
-import { PriceChart } from "../PriceChart";
+import { VolumeChart } from "../VolumeChart";
 import { getFormattedDate } from "../../utils";
 import { overviewFormatter } from "../../utils";
 
-export const PriceChartContainer = (props) => {
-  const { currencySymbol, dates, prices, isLoading, className } = props;
+export const VolumeChartContainer = (props) => {
+  const { currencySymbol, dates, volumes, isLoading, className } = props;
   return (
     <div className={className}>
-      <p>BTC</p>
+      <p>BTC Volume</p>
       <p>
-        {currencySymbol} {overviewFormatter(prices[prices.length - 1], 3)}
+        {currencySymbol} {overviewFormatter(volumes[volumes.length - 1], 3)}
       </p>
       <p>{getFormattedDate()}</p>
-      <PriceChart
+      <VolumeChart
         dates={dates}
-        prices={prices}
+        volumes={volumes}
         currencySymbol={currencySymbol}
         isLoading={isLoading}
       />

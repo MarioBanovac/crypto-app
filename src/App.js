@@ -76,7 +76,6 @@ class App extends React.Component {
             </StyledContainer>
           </Router>
         )}
-        )
       </>
     );
   }

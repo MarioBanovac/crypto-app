@@ -1,5 +1,5 @@
 import React from "react";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 
 import {
   Chart,
@@ -56,26 +56,20 @@ Chart.register(
   SubTitle
 );
 
-export const PriceChart = (props) => {
-  const { dates, prices, currencySymbol, isLoading } = props;
+export const VolumeChart = (props) => {
+  const { dates, volumes, currencySymbol, isLoading } = props;
   const labels = dates;
   const data = {
     labels,
     datasets: [
       {
         label: "Dataset 1",
-        data: dates.map((date, i) => prices[i]),
-        borderColor: "#00FF5F",
+        data: dates.map((date, i) => volumes[i]),
+        borderColor: "#2172E5",
         tension: 0.4,
         pointBorderColor: "rgba(0, 0, 0, 0)",
         pointBackgroundColor: "rgba(0, 0, 0, 0)",
-        backgroundColor: (context) => {
-          const ctx = context.chart.ctx;
-          const gradient = ctx.createLinearGradient(0, 0, 0, 350);
-          gradient.addColorStop(0, "rgba(0,255,95,0.15)");
-          gradient.addColorStop(1, "rgba(25,27,31,0.15)");
-          return gradient;
-        },
+        backgroundColor: "#2172E5",
         fill: {
           target: "origin",
         },
@@ -90,12 +84,6 @@ export const PriceChart = (props) => {
         grid: {
           display: false,
         },
-        ticks: {
-          callback: function (val, index) {
-            return index % 2 === 0 ? val : "";
-          },
-          alignment: "start",
-        },
       },
       y: {
         display: false,
@@ -107,14 +95,14 @@ export const PriceChart = (props) => {
         position: "top",
       },
       tooltip: {
-        titleColor: "#00FF5F",
+        titleColor: "#2172E5",
         titleAlign: "center",
         bodyAlign: "center",
         padding: 10,
         displayColors: false,
         callbacks: {
           title: function (context) {
-            return "Price of bitcoin";
+            return "BTC Volume";
           },
           label: function (context) {
             return context.formattedValue + ` ${currencySymbol}`;
@@ -123,5 +111,5 @@ export const PriceChart = (props) => {
       },
     },
   };
-  return <div>{!isLoading && <Line options={options} data={data} />}</div>;
+  return <div>{!isLoading && <Bar options={options} data={data} />}</div>;
 };
