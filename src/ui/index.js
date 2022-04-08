@@ -4,6 +4,7 @@ import { CurrencyChanger } from "../components/CurrencyChanger";
 import { MarketData } from "../components/MarketData";
 import { PriceChartContainer } from "../components/PriceChartContainer";
 import { VolumeChartContainer } from "../components/VolumeChartContainer";
+import { TimeFrameChanger } from "../components/TimeFrameChanger";
 import Polygon from "../icons/polygon.svg";
 import Theme from "../icons/theme.svg";
 export const GlobalStyle = createGlobalStyle`
@@ -294,6 +295,7 @@ export const CoinsPageContainer = styled.div`
 export const StyledChartsContainer = styled.div`
   display: flex;
   gap: 45px;
+  margin-bottom: 60px;
 `;
 
 export const StyledPriceChartContainer = styled(PriceChartContainer)`
@@ -366,4 +368,23 @@ export const StyledVolumeChartContainer = styled(VolumeChartContainer)`
     align-self: center;
     width: 90%;
   }
+`;
+
+export const StyledTimeFrameChanger = styled(TimeFrameChanger)`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #2c2d33;
+  max-width: 600px;
+  height: 60px;
+  margin: 0 auto;
+  padding: 0 10px;
+  border-radius: 10px;
+`;
+
+export const StyledTimeFrame = styled.div`
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  background: ${({ isActive }) => (isActive ? "#2172E5" : "transparent")};
 `;

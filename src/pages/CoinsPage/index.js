@@ -4,6 +4,7 @@ import { StyledPriceChartContainer } from "../../ui";
 import { StyledVolumeChartContainer } from "../../ui";
 import { CoinsPageContainer } from "../../ui";
 import { StyledChartsContainer } from "../../ui";
+import { StyledTimeFrameChanger } from "../../ui";
 import { unixToDay } from "../../utils";
 
 export default class CoinsPage extends React.Component {
@@ -12,25 +13,84 @@ export default class CoinsPage extends React.Component {
     prices: [],
     volumes: [],
     isLoading: true,
+    timeFrames: [
+      {
+        isActive: false,
+        value: 1,
+        displayValue: "1d",
+      },
+      {
+        isActive: false,
+        value: 7,
+        displayValue: "1w",
+      },
+      {
+        isActive: true,
+        value: 30,
+        displayValue: "1m",
+      },
+      {
+        isActive: false,
+        value: 90,
+        displayValue: "3m",
+      },
+      {
+        isActive: false,
+        value: 180,
+        displayValue: "6m",
+      },
+      {
+        isActive: false,
+        value: 365,
+        displayValue: "1y",
+      },
+    ],
   };
 
   componentDidMount() {
-    this.fetchData();
+    this.fetchChartData();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.currency !== prevProps.currency) {
-      this.fetchData();
+    const { timeFrames } = this.state;
+    const { currencySymbol } = this.props;
+    const currencyChanged = currencySymbol !== prevProps.currencySymbol;
+    const timeFrameChanged = timeFrames !== prevState.timeFrames;
+    if (currencyChanged || timeFrameChanged) {
+      this.fetchChartData();
     }
   }
 
-  fetchData = async () => {
+  changeTimeFrame = ({ target: { innerText } }) => {
+    const { timeFrames } = this.state;
+    const newTimeFrames = timeFrames.map((object) => {
+      if (object.displayValue !== innerText) {
+        if (object.isActive) {
+          object.isActive = !object.isActive;
+          return object;
+        } else {
+          return object;
+        }
+      } else {
+        object.isActive = true;
+        return object;
+      }
+    });
+    this.setState({ timeFrames: newTimeFrames });
+  };
+
+  fetchChartData = async () => {
+    const { timeFrames } = this.state;
+    const activeTimeFrame = timeFrames.filter(({ isActive }) => isActive)[0]
+      .value;
     const { currency } = this.props;
     try {
       const {
         data: { prices, total_volumes },
       } = await axios(
-        `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${currency}&days=30&interval=daily`
+        `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${currency}&days=${activeTimeFrame}&interval=${
+          activeTimeFrame <= 30 ? "hourly" : "daily"
+        }`
       );
 
       const { dateArr, priceArr } = prices.reduce(
@@ -59,7 +119,7 @@ export default class CoinsPage extends React.Component {
     }
   };
   render() {
-    const { dates, prices, volumes } = this.state;
+    const { dates, prices, volumes, timeFrames } = this.state;
     const { currencySymbol } = this.props;
     return (
       <CoinsPageContainer>
@@ -76,6 +136,10 @@ export default class CoinsPage extends React.Component {
             volumes={volumes}
           />
         </StyledChartsContainer>
+        <StyledTimeFrameChanger
+          changeTimeFrame={this.changeTimeFrame}
+          timeFrames={timeFrames}
+        />
       </CoinsPageContainer>
     );
   }

@@ -91,9 +91,6 @@ export const PriceChart = (props) => {
           display: false,
         },
         ticks: {
-          callback: function (val, index) {
-            return index % 2 === 0 ? val : "";
-          },
           alignment: "start",
         },
       },
@@ -107,6 +104,7 @@ export const PriceChart = (props) => {
         position: "top",
       },
       tooltip: {
+        intersect: false,
         titleColor: "#00FF5F",
         titleAlign: "center",
         bodyAlign: "center",

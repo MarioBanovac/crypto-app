@@ -1,5 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+  useHistory,
+} from "react-router-dom";
 import CoinsPage from "./pages/CoinsPage";
 import { PortfolioPage } from "./pages/PortfolioPage";
 import { GlobalStyle, StyledContainer } from "./ui";
@@ -65,11 +71,14 @@ class App extends React.Component {
                 <Route
                   path="/"
                   render={(props) => (
-                    <CoinsPage
-                      currencySymbol={currencySymbol}
-                      currency={currency}
-                      {...props}
-                    />
+                    <>
+                      <Redirect to="/coins" />
+                      <CoinsPage
+                        currencySymbol={currencySymbol}
+                        currency={currency}
+                        {...props}
+                      />
+                    </>
                   )}
                 />
               </Switch>
