@@ -42,12 +42,7 @@ export const overviewFormatter = (num, digits) => {
     : "0";
 };
 
-export const unixToDay = (timestamp) => {
-  const day = new Date(timestamp).toLocaleString().split("/")[1];
-  return day < 10 ? +"0" + day : day;
-};
-
-export function getFormattedDate() {
+export function getFormattedDate(timestamp) {
   const months = {
     1: "Jan",
     2: "Feb",
@@ -62,7 +57,12 @@ export function getFormattedDate() {
     11: "Nov",
     12: "Dec",
   };
-  const date = new Date(Date.now());
-  const [month, day, year] = date.toLocaleDateString().split("/");
-  return `${months[month]} ${day < 10 ? "0" + day : day},${year}`;
+  if (arguments.length > 0) {
+    const [month, day] = new Date(timestamp).toLocaleString().split("/");
+    return `${months[month]} ${day < 10 ? "0" + day : day}`;
+  } else {
+    const date = new Date(Date.now());
+    const [month, day, year] = date.toLocaleDateString().split("/");
+    return `${months[month]} ${day < 10 ? "0" + day : day},${year}`;
+  }
 }

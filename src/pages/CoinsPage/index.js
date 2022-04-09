@@ -5,7 +5,7 @@ import { StyledVolumeChartContainer } from "../../ui";
 import { CoinsPageContainer } from "../../ui";
 import { StyledChartsContainer } from "../../ui";
 import { StyledTimeFrameChanger } from "../../ui";
-import { unixToDay } from "../../utils";
+import { getFormattedDate } from "../../utils";
 
 export default class CoinsPage extends React.Component {
   state = {
@@ -20,12 +20,12 @@ export default class CoinsPage extends React.Component {
         displayValue: "1d",
       },
       {
-        isActive: false,
+        isActive: true,
         value: 7,
         displayValue: "1w",
       },
       {
-        isActive: true,
+        isActive: false,
         value: 30,
         displayValue: "1m",
       },
@@ -89,13 +89,13 @@ export default class CoinsPage extends React.Component {
         data: { prices, total_volumes },
       } = await axios(
         `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${currency}&days=${activeTimeFrame}&interval=${
-          activeTimeFrame <= 30 ? "hourly" : "daily"
+          activeTimeFrame <= 90 ? "hourly" : "daily"
         }`
       );
 
       const { dateArr, priceArr } = prices.reduce(
         ({ dateArr, priceArr }, [date, price]) => ({
-          dateArr: [...dateArr, unixToDay(date)],
+          dateArr: [...dateArr, getFormattedDate(date)],
           priceArr: [...priceArr, price],
         }),
         { dateArr: [], priceArr: [] }

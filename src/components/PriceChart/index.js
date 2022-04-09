@@ -85,13 +85,18 @@ export const PriceChart = (props) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    interaction: {
+      mode: "index",
+    },
     scales: {
       x: {
         grid: {
           display: false,
         },
         ticks: {
-          alignment: "start",
+          maxTicksLimit: 7,
+          labelOffset: 50,
+          maxRotation: 0,
         },
       },
       y: {
@@ -112,10 +117,13 @@ export const PriceChart = (props) => {
         displayColors: false,
         callbacks: {
           title: function (context) {
-            return "Price of bitcoin";
+            return `${context[0].label}`;
           },
           label: function (context) {
             return context.formattedValue + ` ${currencySymbol}`;
+          },
+          labelTextColor: function (context) {
+            return "#00FF5F";
           },
         },
       },

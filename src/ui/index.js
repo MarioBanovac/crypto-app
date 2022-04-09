@@ -120,7 +120,7 @@ export const StyledForm = styled.form`
   align-items: center;
 `;
 
-export const StyledSearchList = styled.ul`
+export const StyledUl = styled.ul`
   position: absolute;
   z-index: 100;
   content: "";
@@ -375,7 +375,7 @@ export const StyledTimeFrameChanger = styled(TimeFrameChanger)`
   justify-content: space-around;
   align-items: center;
   background: #2c2d33;
-  max-width: 600px;
+  max-width: 550px;
   height: 60px;
   margin: 0 auto;
   padding: 0 10px;
@@ -386,5 +386,5 @@ export const StyledTimeFrame = styled.div`
   cursor: pointer;
   padding: 10px;
   border-radius: 10px;
-  background: ${({ isActive }) => (isActive ? "#2172E5" : "transparent")};
+  background: ${({ isActive }) => (isActive ? "#00FF5F" : "transparent")};
 `;

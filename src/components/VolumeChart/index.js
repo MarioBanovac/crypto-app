@@ -79,10 +79,18 @@ export const VolumeChart = (props) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    interaction: {
+      mode: "index",
+    },
     scales: {
       x: {
         grid: {
           display: false,
+        },
+        ticks: {
+          maxTicksLimit: 7,
+          labelOffset: 50,
+          maxRotation: 0,
         },
       },
       y: {
@@ -95,6 +103,7 @@ export const VolumeChart = (props) => {
         position: "top",
       },
       tooltip: {
+        intersect: false,
         titleColor: "#2172E5",
         titleAlign: "center",
         bodyAlign: "center",
@@ -102,10 +111,13 @@ export const VolumeChart = (props) => {
         displayColors: false,
         callbacks: {
           title: function (context) {
-            return "BTC Volume";
+            return `${context[0].label}`;
           },
           label: function (context) {
             return context.formattedValue + ` ${currencySymbol}`;
+          },
+          labelTextColor: function (context) {
+            return "#2172E5";
           },
         },
       },
