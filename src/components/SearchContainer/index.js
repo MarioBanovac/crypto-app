@@ -8,13 +8,37 @@ export class SearchContainer extends React.Component {
   state = {
     isLoading: false,
     list: [],
+    displaySearchResults: true,
   };
 
+  componentDidMount() {
+    const myRef = React.createRef();
+    this.setState({ myRef });
+  }
+
+  handleClick = (e) => {
+    this.setState({ displaySearchResults: true, list: [] });
+    document.addEventListener("click", this.outsideHandler.bind(this), {
+      once: true,
+    });
+  };
+
+  outsideHandler(e) {
+    const { myRef } = this.state;
+    document.addEventListener(
+      "click",
+      ({ target }) => {
+        if (!myRef.current.contains(target)) {
+          this.setState({ displaySearchResults: false });
+        }
+      },
+      { once: true }
+    );
+  }
+
   handleChange = ({ target: { value } }) => {
-    let timer;
-    clearTimeout(timer);
     if (!value) {
-      timer = setTimeout(() => this.setState({ list: [] }), 1200);
+      this.setState({ list: [] });
     }
     value && this.getUser(value);
   };
@@ -40,9 +64,9 @@ export class SearchContainer extends React.Component {
     }
   };
   render() {
-    const { isLoading, list } = this.state;
+    const { isLoading, list, displaySearchResults, myRef } = this.state;
     return (
-      <StyledSearchContainer>
+      <StyledSearchContainer onClick={this.handleClick} ref={myRef}>
         <StyledForm onSubmit={this.handleSubmit}>
           <SearchLogo />
           <input
@@ -54,7 +78,7 @@ export class SearchContainer extends React.Component {
         {isLoading ? (
           <StyledLoadingList>Loading list...</StyledLoadingList>
         ) : (
-          <SearchList list={list} />
+          <SearchList list={list} displaySearchResults={displaySearchResults} />
         )}
       </StyledSearchContainer>
     );

@@ -4,7 +4,6 @@ import {
   Switch,
   Route,
   Redirect,
-  useHistory,
 } from "react-router-dom";
 import CoinsPage from "./pages/CoinsPage";
 import { PortfolioPage } from "./pages/PortfolioPage";

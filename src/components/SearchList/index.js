@@ -2,8 +2,8 @@ import React from "react";
 import { StyledUl } from "../../ui";
 
 export const SearchList = (props) => {
-  const list = props.list;
-  if (Object.keys(list).length > 0) {
+  const { list, displaySearchResults } = props;
+  if (Object.keys(list).length > 0 && displaySearchResults) {
     return (
       <StyledUl>
         {list.map(({ name, id }) => (
