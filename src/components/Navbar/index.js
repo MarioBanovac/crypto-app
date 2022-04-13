@@ -15,7 +15,7 @@ export const Navbar = (props) => {
     <StyledNavbar>
       <StyledNavList>
         <li>
-          <StyledLink exact to="/">
+          <StyledLink exact to="/coins">
             Coins
           </StyledLink>
         </li>
