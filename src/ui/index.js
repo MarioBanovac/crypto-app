@@ -5,6 +5,8 @@ import { MarketData } from "../components/MarketData";
 import { PriceChartContainer } from "../components/PriceChartContainer";
 import { VolumeChartContainer } from "../components/VolumeChartContainer";
 import { TimeFrameChanger } from "../components/TimeFrameChanger";
+import { CoinsTable } from "../components/CoinsTable";
+import { PercentageRounder } from "../components/PercentageRounder";
 import Polygon from "../icons/polygon.svg";
 import Theme from "../icons/theme.svg";
 export const GlobalStyle = createGlobalStyle`
@@ -20,6 +22,7 @@ body{
   background:#191B1F;
   color:#fff;
   height:100vh;
+  overflow-y:auto;
 }
 
 ul{
@@ -35,9 +38,8 @@ a{
 
 export const StyledContainer = styled.div`
   max-width: 1920px;
-  max-height: 1848px;
   text-align: center;
-  height: 100vh;
+  height: 100%;
   border: 10px solid #191B1F;
   margin 0 auto;
   background:#1F2128;
@@ -274,7 +276,7 @@ export const StyledProgress = styled.div`
   border-radius: 10px;
   border: none;
   background: #fff;
-  width: ${({ percent }) => percent}%;
+  width: ${({ percent }) => (percent === Infinity ? 100 : percent)}%;
   min-width: ${({ percent }) => (percent < 2 ? "2" : percent)}%;
 `;
 
@@ -377,7 +379,7 @@ export const StyledTimeFrameChanger = styled(TimeFrameChanger)`
   background: #2c2d33;
   max-width: 550px;
   height: 60px;
-  margin: 0 auto;
+  margin: 0 auto 20px auto;
   padding: 0 10px;
   border-radius: 10px;
 `;
@@ -387,4 +389,87 @@ export const StyledTimeFrame = styled.div`
   padding: 10px;
   border-radius: 10px;
   background: ${({ isActive }) => (isActive ? "#00FF5F" : "transparent")};
+`;
+
+export const StyledCoinsTableContainer = styled.div`
+  max-width: 1712px;
+  height: 951px;
+  background: #191b1f;
+  padding: 0 21px 45px 21px;
+  margin-bottom: 70px;
+  border-radius: 10px;
+  overflow: auto;
+`;
+
+export const StyledCoinsTable = styled(CoinsTable)`
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  border-collapse: collapse;
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+  }
+
+  thead th {
+    padding-top: 45px;
+    padding-bottom: 21px;
+    background: #191b1f;
+  }
+
+  tbody {
+    width: 100%;
+  }
+
+  tr {
+    border-bottom: 0.5px solid rgba(70, 70, 70, 0.3);
+    height: 95px;
+  }
+
+  thead tr:first-child {
+    border: none;
+  }
+
+  thead th:first-child {
+    width: 35px;
+  }
+
+  thead th:nth-child(2) {
+    width: 370px;
+  }
+
+  thead th:nth-child(3) {
+    width: 150px;
+  }
+
+  thead th:nth-child(n + 4):nth-child(-n + 6) {
+    width: 100px;
+  }
+
+  thead th:nth-child(n + 7):nth-child(-n + 8) {
+    width: 300px;
+  }
+
+  img {
+    width: 30px;
+    height: auto;
+    margin-right: 16px;
+  }
+`;
+
+export const StyledFlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+`;
+
+export const StyledPercentageRounder = styled(PercentageRounder)`
+  color: ${({ percentage }) => (percentage >= 0 ? "#00FC2A" : "#FE1040")};
+`;
+
+export const StyledTableChartContainer = styled.div`
+  width: 127px;
+  height: 70px;
 `;

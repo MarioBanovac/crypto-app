@@ -5,6 +5,8 @@ import { StyledVolumeChartContainer } from "../../ui";
 import { CoinsPageContainer } from "../../ui";
 import { StyledChartsContainer } from "../../ui";
 import { StyledTimeFrameChanger } from "../../ui";
+import { StyledCoinsTableContainer } from "../../ui";
+import { StyledCoinsTable } from "../../ui";
 import { getFormattedDate } from "../../utils";
 
 export default class CoinsPage extends React.Component {
@@ -140,6 +142,9 @@ export default class CoinsPage extends React.Component {
           changeTimeFrame={this.changeTimeFrame}
           timeFrames={timeFrames}
         />
+        <StyledCoinsTableContainer>
+          <StyledCoinsTable currencySymbol={currencySymbol} />
+        </StyledCoinsTableContainer>
       </CoinsPageContainer>
     );
   }
