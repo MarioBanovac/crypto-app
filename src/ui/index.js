@@ -7,6 +7,7 @@ import { VolumeChartContainer } from "../components/VolumeChartContainer";
 import {CoinsTableContainer} from '../components/CoinsTableContainer';
 import { TimeFrameChanger } from "../components/TimeFrameChanger";
 import  {CoinsTable}  from "../components/CoinsTable";
+import {CoinLink} from '../components/CoinLink'
 import { PercentageRounder } from "../components/PercentageRounder";
 import Polygon from "../icons/polygon.svg";
 import Theme from "../icons/theme.svg";
@@ -486,3 +487,9 @@ export const StyledTableChartContainer = styled.div`
   width: 127px;
   height: 70px;
 `;
+
+export const StyledCoinLink = styled(CoinLink)`
+  display:flex;
+  align-items:center;
+  height:100%;
+`

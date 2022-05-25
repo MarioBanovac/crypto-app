@@ -9,6 +9,7 @@ import { StyledPercentageRounder } from "../../ui";
 import { StyledCircle } from "../../ui";
 import { StyledProgressContainer } from "../../ui";
 import { StyledProgress } from "../../ui";
+import { StyledCoinLink } from "../../ui";
 
 export class CoinsTable extends React.Component {
   state = {
@@ -82,9 +83,7 @@ export class CoinsTable extends React.Component {
                 <td>{market_cap_rank}</td>
                 <td>
                   <StyledFlexContainer>
-                    <img src={image}></img>
-                    <span>{name}</span>
-                    <span>({symbol.toUpperCase()})</span>
+                    <StyledCoinLink image={image} name={name} symbol={symbol} />
                   </StyledFlexContainer>
                 </td>
                 <td>
