@@ -6,7 +6,6 @@ import { CoinsPageContainer } from "../../ui";
 import { StyledChartsContainer } from "../../ui";
 import { StyledTimeFrameChanger } from "../../ui";
 import { StyledCoinsTableContainer } from "../../ui";
-// import { StyledCoinsTable } from "../../ui";
 
 import { getFormattedDate } from "../../utils";
 

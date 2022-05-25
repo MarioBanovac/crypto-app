@@ -408,9 +408,7 @@ export const StyledCoinsTableContainer = styled(CoinsTableContainer)`
   min-height: 951px;
   background: #191b1f;
   padding: 0 21px 21px 21px;
-  // margin-bottom: 70px;
   border-radius: 10px;
-  // overflow: auto;
 `;
 
 export const StyledCoinsTable = styled(CoinsTable)`
