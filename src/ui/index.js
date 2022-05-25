@@ -309,6 +309,7 @@ export const StyledPriceChartContainer = styled(PriceChartContainer)`
   border-radius: 10px;
   background: #191b1f;
   padding-top: 16px;
+  padding-right:21px;
   text-align: left;
   position: relative;
 
@@ -332,7 +333,7 @@ export const StyledPriceChartContainer = styled(PriceChartContainer)`
   div {
     height: 70%;
     align-self: center;
-    width: 90%;
+    width: 100%;
   }
 `;
 
@@ -345,6 +346,7 @@ export const StyledVolumeChartContainer = styled(VolumeChartContainer)`
   border-radius: 10px;
   background: #191b1f;
   padding-top: 16px;
+  padding-right:21px;
   text-align: left;
   position: relative;
 
@@ -368,7 +370,7 @@ export const StyledVolumeChartContainer = styled(VolumeChartContainer)`
   div {
     height: 70%;
     align-self: center;
-    width: 90%;
+    width: 100%;
   }
 `;
 
