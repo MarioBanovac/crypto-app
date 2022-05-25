@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import InfiniteScroll from "react-infinite-scroller";
+import { SpinnerCircular } from "spinners-react";
 import { DirectionIcon } from "../DirectionIcon";
 import { TableChart } from "../TableChart";
 import { StyledFlexContainer } from "../../ui";
@@ -10,8 +12,9 @@ import { StyledProgress } from "../../ui";
 
 export class CoinsTable extends React.Component {
   state = {
-    data: [],
+    tableData: [],
     fakeDates: [...Array(169).fill(0)],
+    page: 0,
   };
 
   componentDidMount() {
@@ -20,17 +23,18 @@ export class CoinsTable extends React.Component {
 
   fetchTableData = async () => {
     try {
+      this.state.page += 1;
       const { data } = await axios(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=40&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=15&page=${this.state.page}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
       );
-      this.setState({ data });
+      this.setState({ tableData: [...this.state.tableData, ...data] });
     } catch (err) {
       console.log(err);
     }
   };
 
   render() {
-    const { data, fakeDates } = this.state;
+    const { tableData, fakeDates } = this.state;
     const { className, currencySymbol } = this.props;
     return (
       <table className={className}>
@@ -47,8 +51,17 @@ export class CoinsTable extends React.Component {
             <th>Last 7d</th>
           </tr>
         </thead>
-        <tbody>
-          {data.map(
+        <InfiniteScroll
+          initialLoad={false}
+          pageStart={0}
+          hasMore={true || false}
+          loadMore={this.fetchTableData}
+          loader={<SpinnerCircular style={{"position":"absolute","left":"50%","transform":"translateX(-50%)"}} />}
+          useWindow={true}
+          element={"tbody"}
+          threshold={10}
+        >
+          {tableData.map(
             ({
               market_cap_rank,
               image,
@@ -133,7 +146,7 @@ export class CoinsTable extends React.Component {
               </tr>
             )
           )}
-        </tbody>
+        </InfiniteScroll>
       </table>
     );
   }
