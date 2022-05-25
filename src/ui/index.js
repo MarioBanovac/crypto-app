@@ -4,8 +4,9 @@ import { CurrencyChanger } from "../components/CurrencyChanger";
 import { MarketData } from "../components/MarketData";
 import { PriceChartContainer } from "../components/PriceChartContainer";
 import { VolumeChartContainer } from "../components/VolumeChartContainer";
+import {CoinsTableContainer} from '../components/CoinsTableContainer';
 import { TimeFrameChanger } from "../components/TimeFrameChanger";
-import { CoinsTable } from "../components/CoinsTable";
+import  {CoinsTable}  from "../components/CoinsTable";
 import { PercentageRounder } from "../components/PercentageRounder";
 import Polygon from "../icons/polygon.svg";
 import Theme from "../icons/theme.svg";
@@ -23,6 +24,16 @@ body{
   color:#fff;
   height:100vh;
   overflow-y:auto;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+}
+
+
+&::-webkit-scrollbar-thumb {
+  background-color: #2172e5;
+  border-radius:8px;
+}
 }
 
 ul{
@@ -393,14 +404,13 @@ export const StyledTimeFrame = styled.div`
   background: ${({ isActive }) => (isActive ? "#00FF5F" : "transparent")};
 `;
 
-export const StyledCoinsTableContainer = styled.div`
+export const StyledCoinsTableContainer = styled(CoinsTableContainer)`
+
   max-width: 1712px;
-  height: 951px;
+  min-height: 951px;
   background: #191b1f;
-  padding: 0 21px 45px 21px;
-  margin-bottom: 70px;
+  padding: 0 21px 21px 21px;
   border-radius: 10px;
-  overflow: auto;
 `;
 
 export const StyledCoinsTable = styled(CoinsTable)`
@@ -408,6 +418,7 @@ export const StyledCoinsTable = styled(CoinsTable)`
   height: 100%;
   text-align: left;
   border-collapse: collapse;
+  overflow:auto;
 
   thead {
     position: sticky;
@@ -415,22 +426,22 @@ export const StyledCoinsTable = styled(CoinsTable)`
     z-index: 3;
   }
 
-  thead th {
+   thead th {
     padding-top: 45px;
     padding-bottom: 21px;
     background: #191b1f;
   }
 
-  tbody {
+   tbody {
     width: 100%;
   }
 
-  tr {
+    tr {
     border-bottom: 0.5px solid rgba(70, 70, 70, 0.3);
     height: 95px;
   }
 
-  thead tr:first-child {
+   thead tr:first-child {
     border: none;
   }
 
@@ -438,23 +449,23 @@ export const StyledCoinsTable = styled(CoinsTable)`
     width: 35px;
   }
 
-  thead th:nth-child(2) {
+ thead th:nth-child(2) {
     width: 370px;
   }
 
-  thead th:nth-child(3) {
+ thead th:nth-child(3) {
     width: 150px;
   }
 
-  thead th:nth-child(n + 4):nth-child(-n + 6) {
+   thead th:nth-child(n + 4):nth-child(-n + 6) {
     width: 100px;
   }
 
-  thead th:nth-child(n + 7):nth-child(-n + 8) {
+   thead th:nth-child(n + 7):nth-child(-n + 8) {
     width: 300px;
   }
 
-  img {
+  div img {
     width: 30px;
     height: auto;
     margin-right: 16px;
