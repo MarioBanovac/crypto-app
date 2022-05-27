@@ -15,20 +15,27 @@ export class CoinsTable extends React.Component {
   state = {
     tableData: [],
     fakeDates: [...Array(169).fill(0)],
-    page: 0,
+    page: 1,
   };
 
   componentDidMount() {
     this.fetchTableData();
   }
 
+  componentDidUpdate(prevProps,prevState){
+    if(prevProps.currency!==this.props.currency){
+      this.setState({tableData:[],page:1},()=>{
+        this.fetchTableData();
+      })
+    }
+  }
+
   fetchTableData = async () => {
     try {
-      this.state.page += 1;
       const { data } = await axios(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=15&page=${this.state.page}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${JSON.parse(localStorage.getItem('currencyDetails'))?.currency ||'usd'}&order=market_cap_desc&per_page=15&page=${this.state.page}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
       );
-      this.setState({ tableData: [...this.state.tableData, ...data] });
+      this.setState({ tableData: [...this.state.tableData, ...data],page:this.state.page+1 });
     } catch (err) {
       console.log(err);
     }

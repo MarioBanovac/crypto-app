@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyledCoinsTable } from '../../ui';
 
-export const CoinsTableContainer = ({currencySymbol,className}) => {
+export const CoinsTableContainer = ({currency,currencySymbol,className}) => {
   return (
     <div className={className}>
-        <StyledCoinsTable currencySymbol={currencySymbol} />
+        <StyledCoinsTable currency={currency} currencySymbol={currencySymbol} />
     </div>
   )
 }
