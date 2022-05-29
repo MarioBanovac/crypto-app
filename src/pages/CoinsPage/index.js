@@ -122,7 +122,7 @@ export default class CoinsPage extends React.Component {
   };
   render() {
     const { dates, prices, volumes, timeFrames } = this.state;
-    const { currencySymbol } = this.props;
+    const {currency, currencySymbol } = this.props;
     return (
       <CoinsPageContainer>
         <h1>Your overview</h1>
@@ -142,7 +142,7 @@ export default class CoinsPage extends React.Component {
           changeTimeFrame={this.changeTimeFrame}
           timeFrames={timeFrames}
         />
-        <StyledCoinsTableContainer currencySymbol = {currencySymbol} />
+        <StyledCoinsTableContainer currency={currency} currencySymbol = {currencySymbol} />
       </CoinsPageContainer>
     );
   }
