@@ -4,10 +4,10 @@ import { CurrencyChanger } from "../components/CurrencyChanger";
 import { MarketData } from "../components/MarketData";
 import { PriceChartContainer } from "../components/PriceChartContainer";
 import { VolumeChartContainer } from "../components/VolumeChartContainer";
-import {CoinsTableContainer} from '../components/CoinsTableContainer';
+import { CoinsTableContainer } from "../components/CoinsTableContainer";
 import { TimeFrameChanger } from "../components/TimeFrameChanger";
-import  {CoinsTable}  from "../components/CoinsTable";
-import {CoinLink} from '../components/CoinLink'
+import { CoinsTable } from "../components/CoinsTable";
+import { CoinLink } from "../components/CoinLink";
 import { PercentageRounder } from "../components/PercentageRounder";
 import Polygon from "../icons/polygon.svg";
 import Theme from "../icons/theme.svg";
@@ -261,6 +261,11 @@ export const StyledMarketData = styled(MarketData)`
 `;
 
 export const StyledCircle = styled.div`
+  position: ${({ position }) => position};
+  top: ${({ top }) => top};
+  left: ${({ left }) => left};
+  bottom: ${({ bottom }) => bottom};
+  right: ${({ right }) => right};
   height: ${({ height }) => (height ? height : "8px")};
   width: ${({ width }) => (width ? width : "8px")};
   background-color: ${({ background }) => (background ? background : "#fff")};
@@ -321,7 +326,7 @@ export const StyledPriceChartContainer = styled(PriceChartContainer)`
   border-radius: 10px;
   background: #191b1f;
   padding-top: 16px;
-  padding-right:21px;
+  padding-right: 21px;
   text-align: left;
   position: relative;
 
@@ -358,7 +363,7 @@ export const StyledVolumeChartContainer = styled(VolumeChartContainer)`
   border-radius: 10px;
   background: #191b1f;
   padding-top: 16px;
-  padding-right:21px;
+  padding-right: 21px;
   text-align: left;
   position: relative;
 
@@ -406,7 +411,6 @@ export const StyledTimeFrame = styled.div`
 `;
 
 export const StyledCoinsTableContainer = styled(CoinsTableContainer)`
-
   max-width: 1712px;
   min-height: 951px;
   background: #191b1f;
@@ -419,7 +423,7 @@ export const StyledCoinsTable = styled(CoinsTable)`
   height: 100%;
   text-align: left;
   border-collapse: collapse;
-  overflow:auto;
+  overflow: auto;
 
   thead {
     position: sticky;
@@ -427,22 +431,22 @@ export const StyledCoinsTable = styled(CoinsTable)`
     z-index: 3;
   }
 
-   thead th {
+  thead th {
     padding-top: 45px;
     padding-bottom: 21px;
     background: #191b1f;
   }
 
-   tbody {
+  tbody {
     width: 100%;
   }
 
-    tr {
+  tr {
     border-bottom: 0.5px solid rgba(70, 70, 70, 0.3);
     height: 95px;
   }
 
-   thead tr:first-child {
+  thead tr:first-child {
     border: none;
   }
 
@@ -450,19 +454,19 @@ export const StyledCoinsTable = styled(CoinsTable)`
     width: 35px;
   }
 
- thead th:nth-child(2) {
+  thead th:nth-child(2) {
     width: 370px;
   }
 
- thead th:nth-child(3) {
+  thead th:nth-child(3) {
     width: 150px;
   }
 
-   thead th:nth-child(n + 4):nth-child(-n + 6) {
+  thead th:nth-child(n + 4):nth-child(-n + 6) {
     width: 100px;
   }
 
-   thead th:nth-child(n + 7):nth-child(-n + 8) {
+  thead th:nth-child(n + 7):nth-child(-n + 8) {
     width: 300px;
   }
 
@@ -489,7 +493,15 @@ export const StyledTableChartContainer = styled.div`
 `;
 
 export const StyledCoinLink = styled(CoinLink)`
-  display:flex;
-  align-items:center;
-  height:100%;
-`
+  display: flex;
+  align-items: center;
+  height: 100%;
+`;
+
+export const StyledTableSpan = styled.span`
+  position: absolute;
+  top: ${({ top }) => top};
+  left: ${({ left }) => left};
+  bottom: ${({ bottom }) => bottom};
+  right: ${({ right }) => right};
+`;

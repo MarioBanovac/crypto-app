@@ -10,6 +10,8 @@ import { StyledCircle } from "../../ui";
 import { StyledProgressContainer } from "../../ui";
 import { StyledProgress } from "../../ui";
 import { StyledCoinLink } from "../../ui";
+import { StyledTableSpan } from "../../ui";
+import { nFormatter } from "../../utils";
 
 export class CoinsTable extends React.Component {
   state = {
@@ -64,7 +66,15 @@ export class CoinsTable extends React.Component {
           pageStart={0}
           hasMore={true || false}
           loadMore={this.fetchTableData}
-          loader={<SpinnerCircular style={{"position":"absolute","left":"50%","transform":"translateX(-50%)"}} />}
+          loader={
+            <SpinnerCircular
+              style={{
+                position: "absolute",
+                left: "50%",
+                transform: "translateX(-50%)",
+              }}
+            />
+          }
           useWindow={true}
           element={"tbody"}
           threshold={10}
@@ -129,16 +139,43 @@ export class CoinsTable extends React.Component {
                 </td>
                 <td>
                   <StyledProgressContainer width={250}>
+                    <StyledCircle position="absolute" bottom="20px" />
+                    <StyledTableSpan bottom="14px" left="15px">
+                      {currencySymbol}
+                      {nFormatter(total_volume, 2)}
+                    </StyledTableSpan>
                     <StyledProgress
                       percent={(total_volume / market_cap) * 100}
                     />
+                    <StyledCircle
+                      position="absolute"
+                      bottom="20px"
+                      right="60px"
+                    />
+                    <StyledTableSpan bottom="14px" right="0px">
+                    {currencySymbol}
+                    {nFormatter(market_cap, 2)}
+                    </StyledTableSpan>
                   </StyledProgressContainer>
                 </td>
                 <td>
                   <StyledProgressContainer width={250}>
+                  <StyledCircle position="absolute" bottom="20px" />
+                    <StyledTableSpan bottom="14px" left="15px">
+                      {currencySymbol}
+                      {nFormatter(circulating_supply, 2)}
+                    </StyledTableSpan>
                     <StyledProgress
                       percent={(circulating_supply / total_supply) * 100}
                     />
+                    <StyledCircle
+                      position="absolute"
+                      bottom="20px"
+                      right="60px"
+                    />
+                    <StyledTableSpan bottom="14px" right="0px"> 
+                    { total_supply ===null ? "∞":currencySymbol+nFormatter(total_supply, 2)}
+                    </StyledTableSpan>
                   </StyledProgressContainer>
                 </td>
                 <td>
