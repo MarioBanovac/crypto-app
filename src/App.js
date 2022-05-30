@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import {
   BrowserRouter as Router,
   Switch,
@@ -90,4 +91,8 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state)=>({
+
+})
+
+export default connect(mapStateToProps)(App)
