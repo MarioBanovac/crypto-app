@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { SearchContainer } from "../SearchContainer";
 import {
   StyledNavList,
@@ -10,7 +11,10 @@ import {
 } from "../../ui";
 
 export const Navbar = (props) => {
-  const { currency, currencySymbol, handleCurrencyChange } = props;
+
+  const {currency,currencySymbol} = useSelector((state)=>state.currencyDetails)
+  const {handleCurrencyChange } = props;
+  
   return (
     <StyledNavbar>
       <StyledNavList>

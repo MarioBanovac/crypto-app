@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { StyledPriceChartContainer } from "../../ui";
 import { StyledVolumeChartContainer } from "../../ui";
@@ -6,65 +7,67 @@ import { CoinsPageContainer } from "../../ui";
 import { StyledChartsContainer } from "../../ui";
 import { StyledTimeFrameChanger } from "../../ui";
 import { StyledCoinsTableContainer } from "../../ui";
-
 import { getFormattedDate } from "../../utils";
+import usePrevious from "../../utils";
 
-export default class CoinsPage extends React.Component {
-  state = {
-    dates: [],
-    prices: [],
-    volumes: [],
-    isLoading: true,
-    timeFrames: [
-      {
-        isActive: false,
-        value: 1,
-        displayValue: "1d",
-      },
-      {
-        isActive: true,
-        value: 7,
-        displayValue: "1w",
-      },
-      {
-        isActive: false,
-        value: 30,
-        displayValue: "1m",
-      },
-      {
-        isActive: false,
-        value: 90,
-        displayValue: "3m",
-      },
-      {
-        isActive: false,
-        value: 180,
-        displayValue: "6m",
-      },
-      {
-        isActive: false,
-        value: 365,
-        displayValue: "1y",
-      },
-    ],
-  };
 
-  componentDidMount() {
-    this.fetchChartData();
-  }
+export default function CoinsPage(props) {
+  const { currency, currencySymbol } = useSelector(
+    (state) => state.currencyDetails
+  );
+  const [dates, setDates] = useState([]);
+  const [prices, setPrices] = useState([]);
+  const [volumes, setVolumes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [timeFrames, setTimeFrames] = useState([
+    {
+      isActive: false,
+      value: 1,
+      displayValue: "1d",
+    },
+    {
+      isActive: true,
+      value: 7,
+      displayValue: "1w",
+    },
+    {
+      isActive: false,
+      value: 30,
+      displayValue: "1m",
+    },
+    {
+      isActive: false,
+      value: 90,
+      displayValue: "3m",
+    },
+    {
+      isActive: false,
+      value: 180,
+      displayValue: "6m",
+    },
+    {
+      isActive: false,
+      value: 365,
+      displayValue: "1y",
+    },
+  ]);
+  const prevValues = usePrevious({ currencySymbol, timeFrames });
 
-  componentDidUpdate(prevProps, prevState) {
-    const { timeFrames } = this.state;
-    const { currencySymbol } = this.props;
-    const currencyChanged = currencySymbol !== prevProps.currencySymbol;
-    const timeFrameChanged = timeFrames !== prevState.timeFrames;
-    if (currencyChanged || timeFrameChanged) {
-      this.fetchChartData();
+  useEffect(() => {
+    fetchChartData();
+  }, []);
+
+  useEffect(() => {
+    if (
+      prevValues?.currencySymbol !== currencySymbol ||
+      prevValues?.timeFrames !== timeFrames
+      ) {
+        fetchChartData();
     }
-  }
+  }, [currencySymbol, timeFrames]);
 
-  changeTimeFrame = ({ target: { innerText } }) => {
-    const { timeFrames } = this.state;
+
+  const changeTimeFrame = ({ target: { innerText } }) => {
     const newTimeFrames = timeFrames.map((object) => {
       if (object.displayValue !== innerText) {
         if (object.isActive) {
@@ -78,14 +81,12 @@ export default class CoinsPage extends React.Component {
         return object;
       }
     });
-    this.setState({ timeFrames: newTimeFrames });
+    setTimeFrames(newTimeFrames);
   };
 
-  fetchChartData = async () => {
-    const { timeFrames } = this.state;
+  const fetchChartData = async () => {
     const activeTimeFrame = timeFrames.filter(({ isActive }) => isActive)[0]
       .value;
-    const { currency } = this.props;
     try {
       const {
         data: { prices, total_volumes },
@@ -109,41 +110,35 @@ export default class CoinsPage extends React.Component {
         }),
         { volumesArr: [] }
       );
-
-      this.setState({
-        dates: dateArr,
-        prices: priceArr,
-        volumes: volumesArr,
-        isLoading: false,
-      });
+      setDates(dateArr);
+      setPrices(priceArr);
+      setVolumes(volumesArr);
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
     }
   };
-  render() {
-    const { dates, prices, volumes, timeFrames } = this.state;
-    const {currency, currencySymbol } = this.props;
-    return (
-      <CoinsPageContainer>
-        <h1>Your overview</h1>
-        <StyledChartsContainer>
-          <StyledPriceChartContainer
-            currencySymbol={currencySymbol}
-            dates={dates}
-            prices={prices}
-          />
-          <StyledVolumeChartContainer
-            currencySymbol={currencySymbol}
-            dates={dates}
-            volumes={volumes}
-          />
-        </StyledChartsContainer>
-        <StyledTimeFrameChanger
-          changeTimeFrame={this.changeTimeFrame}
-          timeFrames={timeFrames}
+  return (
+    <CoinsPageContainer>
+      <h1>Your overview</h1>
+      <StyledChartsContainer>
+        <StyledPriceChartContainer
+          currencySymbol={currencySymbol}
+          dates={dates}
+          prices={prices}
         />
-        <StyledCoinsTableContainer currency={currency} currencySymbol = {currencySymbol} />
-      </CoinsPageContainer>
-    );
-  }
+        <StyledVolumeChartContainer
+          currencySymbol={currencySymbol}
+          dates={dates}
+          volumes={volumes}
+        />
+      </StyledChartsContainer>
+      <StyledTimeFrameChanger
+        changeTimeFrame={changeTimeFrame}
+        timeFrames={timeFrames}
+      />
+      <StyledCoinsTableContainer
+      />
+    </CoinsPageContainer>
+  );
 }

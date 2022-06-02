@@ -1,13 +1,11 @@
-import React from 'react';
-import { StyledCoinsTable } from '../../ui';
+import React from "react";
+import { useSelector } from "react-redux";
+import { StyledCoinsTable } from "../../ui";
 
-export const CoinsTableContainer = ({currency,currencySymbol,className}) => {
+export const CoinsTableContainer = ({ className }) => {
   return (
     <div className={className}>
-        <StyledCoinsTable currency={currency} currencySymbol={currencySymbol} />
+      <StyledCoinsTable/>
     </div>
-  )
-}
-
-
-
+  );
+};

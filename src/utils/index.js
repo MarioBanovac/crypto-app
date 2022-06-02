@@ -1,4 +1,6 @@
-export const  nFormatter = (num, digits) => {
+import React, {useEffect, useRef } from "react";
+
+export const nFormatter = (num, digits) => {
   const lookup = [
     { value: 1, symbol: "" },
     { value: 1e3, symbol: "k" },
@@ -65,4 +67,12 @@ export function getFormattedDate(timestamp) {
     const [month, day, year] = date.toLocaleDateString().split("/");
     return `${months[month]} ${day < 10 ? "0" + day : day},${year}`;
   }
+}
+
+export default function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
 }

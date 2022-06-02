@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,88 +11,43 @@ import CoinsPage from "./pages/CoinsPage";
 import { PortfolioPage } from "./pages/PortfolioPage";
 import { GlobalStyle, StyledContainer } from "./ui";
 import { Navbar } from "./components/Navbar";
+import { changeCurrency } from "./store/currency/currency.actions";
 
-class App extends React.Component {
-  state = {
-    currencyDetails: {
-      currency: "",
-      currencySymbol: "",
-    },
+function App(props) {
+  const { changeCurrency } = props;
+
+  const handleCurrencyChange = ({ target: { value } }) => {
+    changeCurrency(value);
   };
 
-  componentDidMount() {
-    const savedData = JSON.parse(localStorage.getItem("currencyDetails"));
-    if (savedData !== null) {
-      this.setState({ currencyDetails: savedData });
-    } else {
-      this.setState({
-        currencyDetails: { currency: "usd", currencySymbol: "$" },
-      });
-    }
-  }
-
-  handleCurrencyChange = ({ target: { value } }) => {
-    const symbols = {
-      usd: "$",
-      gbp: "£",
-      eur: "€",
-      btc: "₿",
-      eth: "Ξ",
-    };
-
-    this.setState({
-      currencyDetails: {
-        currency: value,
-        currencySymbol: symbols[value.toLowerCase()],
-      },
-    });
-  };
-
-  render() {
-    const {
-      currencyDetails: { currency, currencySymbol },
-    } = this.state;
-    return (
-      <>
-        {currency && currencySymbol && (
-          <Router>
-            <GlobalStyle />
-            <StyledContainer>
-              <Navbar
-                currency={currency}
-                currencySymbol={currencySymbol}
-                handleCurrencyChange={this.handleCurrencyChange}
-              />
-
-              <Switch>
-                <Route
-                  path="/portfolio"
-                  render={(props) => <PortfolioPage {...props} />}
-                />
-                <Route
-                  path="/"
-                  render={(props) => (
-                    <>
-                      <Redirect to="/coins" />
-                      <CoinsPage
-                        currencySymbol={currencySymbol}
-                        currency={currency}
-                        {...props}
-                      />
-                    </>
-                  )}
-                />
-              </Switch>
-            </StyledContainer>
-          </Router>
-        )}
-      </>
-    );
-  }
+  return (
+    <>
+      <Router>
+        <GlobalStyle />
+        <StyledContainer>
+          <Navbar handleCurrencyChange={handleCurrencyChange} />
+          <Switch>
+            <Route path="/portfolio" render={PortfolioPage} />
+            <Route
+              path="/"
+              render={(props) => (
+                <>
+                  <Redirect to="/coins" />
+                  <CoinsPage {...props} />
+                </>
+              )}
+            />
+          </Switch>
+        </StyledContainer>
+      </Router>
+    </>
+  );
 }
 
-const mapStateToProps = (state)=>({
+const mapStateToProps = (state) => ({});
 
-})
+const mapDispatchToProps = {
+  changeCurrency,
+};
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App);
