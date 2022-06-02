@@ -13,12 +13,8 @@ import { GlobalStyle, StyledContainer } from "./ui";
 import { Navbar } from "./components/Navbar";
 import { changeCurrency } from "./store/currency/currency.actions";
 
-
 function App(props) {
-  const {changeCurrency} = props;
-  const { currency, currencySymbol } = useSelector(
-    (state) => state.currencyDetails
-  );
+  const { changeCurrency } = props;
 
   const handleCurrencyChange = ({ target: { value } }) => {
     changeCurrency(value);
@@ -26,41 +22,26 @@ function App(props) {
 
   return (
     <>
-      {currency && currencySymbol && (
-        <Router>
-          <GlobalStyle />
-          <StyledContainer>
-            <Navbar
-              currency={currency}
-              currencySymbol={currencySymbol}
-              handleCurrencyChange={handleCurrencyChange}
+      <Router>
+        <GlobalStyle />
+        <StyledContainer>
+          <Navbar handleCurrencyChange={handleCurrencyChange} />
+          <Switch>
+            <Route path="/portfolio" render={PortfolioPage} />
+            <Route
+              path="/"
+              render={(props) => (
+                <>
+                  <Redirect to="/coins" />
+                  <CoinsPage {...props} />
+                </>
+              )}
             />
-
-            <Switch>
-              <Route
-                path="/portfolio"
-                render={(props) => <PortfolioPage {...props} />}
-              />
-              <Route
-                path="/"
-                render={(props) => (
-                  <>
-                    <Redirect to="/coins" />
-                    <CoinsPage
-                      currencySymbol={currencySymbol}
-                      currency={currency}
-                      {...props}
-                    />
-                  </>
-                )}
-              />
-            </Switch>
-          </StyledContainer>
-        </Router>
-      )}
+          </Switch>
+        </StyledContainer>
+      </Router>
     </>
   );
-  // }
 }
 
 const mapStateToProps = (state) => ({});

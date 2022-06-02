@@ -1,7 +1,6 @@
-import { CURRENCY_CHANGE_CURRENCY_SUCCESS } from "./currency.store"
+import { CURRENCY_CHANGE_CURRENCY_SUCCESS } from "./currency.store";
 
-export const changeCurrency = (currency)=>(
-    {
-    type:CURRENCY_CHANGE_CURRENCY_SUCCESS,
-    payload:currency
-})
+export const changeCurrency = (currency) => ({
+  type: CURRENCY_CHANGE_CURRENCY_SUCCESS,
+  payload: currency,
+});

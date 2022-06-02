@@ -11,8 +11,10 @@ import {
 } from "../../ui";
 
 export const Navbar = (props) => {
+
   const {currency,currencySymbol} = useSelector((state)=>state.currencyDetails)
   const {handleCurrencyChange } = props;
+  
   return (
     <StyledNavbar>
       <StyledNavList>
