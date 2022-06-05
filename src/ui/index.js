@@ -1,16 +1,8 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { NavLink } from "react-router-dom";
-import { CurrencyChanger } from "../components/CurrencyChanger";
-import { MarketData } from "../components/MarketData";
-import { PriceChartContainer } from "../components/PriceChartContainer";
-import { VolumeChartContainer } from "../components/VolumeChartContainer";
-import { CoinsTableContainer } from "../components/CoinsTableContainer";
-import { TimeFrameChanger } from "../components/TimeFrameChanger";
-import { CoinsTable } from "../components/CoinsTable";
-import { CoinLink } from "../components/CoinLink";
-import { PercentageRounder } from "../components/PercentageRounder";
-import Polygon from "../icons/polygon.svg";
-import Theme from "../icons/theme.svg";
+import { CurrencyChanger,MarketData,PriceChartContainer,VolumeChartContainer,CoinsTableContainer,TimeFrameChanger,CoinsTable,CoinLink,PercentageRounder } from "components";
+import Polygon from "icons/polygon.svg";
+import Theme from "icons/theme.svg";
 export const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
 * {

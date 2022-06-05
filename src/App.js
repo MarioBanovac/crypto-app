@@ -1,5 +1,5 @@
 import React from "react";
-import { connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,11 +7,10 @@ import {
   Redirect,
   useHistory,
 } from "react-router-dom";
-import CoinsPage from "./pages/CoinsPage";
-import { PortfolioPage } from "./pages/PortfolioPage";
-import { GlobalStyle, StyledContainer } from "./ui";
-import { Navbar } from "./components/Navbar";
-import { changeCurrency } from "./store/currency/currency.actions";
+import { CoinsPage, PortfolioPage } from "pages";
+import { GlobalStyle, StyledContainer } from "ui";
+import {Navbar}  from "components";
+import { changeCurrency } from "store/currency/currency.actions";
 
 function App(props) {
   const { changeCurrency } = props;
