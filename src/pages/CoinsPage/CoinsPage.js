@@ -6,7 +6,7 @@ import { getFormattedDate } from "utils";
 import usePrevious from "utils";
 
 
-export default function CoinsPage(props) {
+export default function CoinsPage() {
   const { currency, currencySymbol } = useSelector(
     (state) => state.currencyDetails
   );
