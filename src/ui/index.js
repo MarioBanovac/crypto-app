@@ -1,6 +1,17 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { NavLink } from "react-router-dom";
-import { CurrencyChanger,MarketData,PriceChartContainer,VolumeChartContainer,CoinsTableContainer,TimeFrameChanger,CoinsTable,CoinLink,PercentageRounder } from "components";
+import {
+  CurrencyChanger,
+  MarketData,
+  PriceChartContainer,
+  VolumeChartContainer,
+  CoinsTableContainer,
+  TimeFrameChanger,
+  CoinsTable,
+  CoinLink,
+  PercentageRounder,
+  RadioButton,
+} from "components";
 import Polygon from "icons/polygon.svg";
 import Theme from "icons/theme.svg";
 export const GlobalStyle = createGlobalStyle`
@@ -17,6 +28,7 @@ body{
   color:#fff;
   height:100vh;
   overflow-y:auto;
+  overflow-x:hidden;
 
   &::-webkit-scrollbar {
     width: 10px;
@@ -312,8 +324,7 @@ export const StyledChartsContainer = styled.div`
 export const StyledPriceChartContainer = styled(PriceChartContainer)`
   display: flex;
   flex-direction: column;
-
-  width: 833px;
+  width: ${({ fullScreen }) => (fullScreen ? "100vw" : "833px")};
   height: 449px;
   border-radius: 10px;
   background: #191b1f;
@@ -343,6 +354,10 @@ export const StyledPriceChartContainer = styled(PriceChartContainer)`
     height: 70%;
     align-self: center;
     width: 100%;
+  }
+
+  canvas{
+    width:${({fullScreen})=>fullScreen?"100vw":"100%"};
   }
 `;
 
@@ -471,8 +486,19 @@ export const StyledCoinsTable = styled(CoinsTable)`
 
 export const StyledFlexContainer = styled.div`
   display: flex;
-  align-items: center;
-  height: 100%;
+  align-items: ${({ alignItems }) => (alignItems ? alignItems : "center")};
+  justify-content: ${({ justifyContent }) => justifyContent};
+  height: ${({ height }) => (height ? height : "100%")};
+  width: ${({ width }) => width};
+  flex-direction: ${({ flexDirection }) =>
+    flexDirection ? flexDirection : "row"};
+  margin: ${({ margin }) => margin};
+  padding: ${({ padding }) => padding};
+  text-align: ${({ textAlign }) => textAlign};
+  flex-direction: ${({ flexDirection }) =>
+    flexDirection ? flexDirection : "row"};
+  flex-wrap: ${({ flexWrap }) => flexWrap};
+  max-width: ${({ maxWidth }) => maxWidth};
 `;
 
 export const StyledPercentageRounder = styled(PercentageRounder)`
@@ -496,4 +522,84 @@ export const StyledTableSpan = styled.span`
   left: ${({ left }) => left};
   bottom: ${({ bottom }) => bottom};
   right: ${({ right }) => right};
+`;
+
+export const CoinPageContainer = styled.div`
+  width: 100%;
+  margin-top: 100px;
+  padding-right: 237px;
+  padding-left: 259px;
+
+  h2 {
+    font-size: 22px;
+    text-align: left;
+    font-weight: 400;
+    margin-bottom: 53px;
+  }
+`;
+
+export const ContentContainer = styled.div`
+  display: flex;
+  justify-content: ${({ justifyContent }) => justifyContent};
+  align-items: ${({ alignItems }) => alignItems};
+  flex-direction: ${({ flexDirection }) => flexDirection};
+  border-radius: ${({ borderRadius }) => borderRadius};
+  width: ${({ width }) => width};
+  min-width: ${({ minWidth }) => minWidth};
+  height: ${({ height }) => height};
+  background: #191b1f;
+  color: #fff;
+  text-align: ${({ textAlign }) => textAlign};
+  margin: ${({ margin }) => margin};
+  padding: ${({ padding }) => padding};
+  flex: ${({ flex }) => flex};
+`;
+
+export const CoinImage = styled.img`
+  padding: 30px;
+  background: #1f2128;
+  border-radius: 12px;
+  margin-bottom: 10px;
+`;
+
+export const StyledSpan = styled.span`
+  color: #fff;
+  font-size: ${({ fontSize }) => fontSize};
+  padding: ${({ padding }) => padding};
+  margin: ${({ margin }) => margin};
+  width: ${({ width }) => width};
+`;
+
+export const StyledParagraph = styled.p`
+  font-size: ${({ fontSize }) => fontSize};
+  margin: ${({ margin }) => margin};
+  line-height: ${({ lineHeight }) => lineHeight};
+  a {
+    color: #00fc2a;
+  }
+`;
+
+export const StyledRadioButton = styled(RadioButton)`
+  input[type="radio"] {
+    width: 27px;
+    height: 27px;
+    margin-right: 8px;
+    background-color: transparent;
+    border: 0.0825em solid #009719;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 0 white;
+    cursor: pointer;
+    font: inherit;
+    height: 2em;
+    outline: none;
+    width: 2em;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    &:checked {
+      background-color: #00fc2a;
+      box-shadow: inset 0 0 0 0.1875em #009719;
+      -webkit-transition: background 0.15s, box-shadow 0.1s;
+      transition: background 0.15s, box-shadow 0.1s;
+    }
+  }
 `;

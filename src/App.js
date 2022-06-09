@@ -35,7 +35,11 @@ function App(props) {
                   <CoinsPage {...props} />
                 </>
               )}/>
-            <Route exact path='/coin/:coinName' render={CoinPage} />
+            <Route exact path='/coin/:coinName' render={(props) => (
+                <>
+                  <CoinPage {...props} />
+                </>
+              )} />
           </Switch>
         </StyledContainer>
       </Router>
