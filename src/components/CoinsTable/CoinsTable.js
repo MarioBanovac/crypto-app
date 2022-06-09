@@ -108,7 +108,7 @@ export default function CoinsTable(props) {
               <td>{market_cap_rank}</td>
               <td>
                 <StyledFlexContainer>
-                  <StyledCoinLink image={image} name={name} symbol={symbol} />
+                  <StyledCoinLink name={name} image={image} id={id} symbol={symbol} />
                 </StyledFlexContainer>
               </td>
               <td>

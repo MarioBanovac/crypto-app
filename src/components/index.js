@@ -14,3 +14,7 @@ export {default as SearchContainer} from './SearchContainer';
 export {default as SearchList} from './SearchList';
 export {default as TimeFrameChanger} from './TimeFrameChanger';
 export {default as PercentageRounder} from './PercentageRounder';
+export {default as YourSummary} from './YourSummary';
+export {default as CoinDescription} from './CoinDescription';
+export {default as CoinLinks} from './CoinLinks';
+export {default as RadioButton} from './RadioButton';
