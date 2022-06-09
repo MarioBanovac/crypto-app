@@ -19,7 +19,7 @@ export default function Navbar(props){
     <StyledNavbar>
       <StyledNavList>
         <li>
-          <StyledLink exact to="/coins">
+          <StyledLink exact to="/">
             Coins
           </StyledLink>
         </li>
