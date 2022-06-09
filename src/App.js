@@ -7,10 +7,10 @@ import {
   Redirect,
   useHistory,
 } from "react-router-dom";
-import {CoinsPage, PortfolioPage } from "pages";
-import CoinPage from "pages/CoinPage"
+import { CoinsPage, PortfolioPage } from "pages";
+import CoinPage from "pages/CoinPage";
 import { GlobalStyle, StyledContainer } from "ui";
-import {Navbar}  from "components";
+import { Navbar } from "components";
 import { changeCurrency } from "store/currency/currency.actions";
 
 function App(props) {
@@ -35,12 +35,17 @@ function App(props) {
                 <>
                   <CoinsPage {...props} />
                 </>
-              )}/>
-            <Route exact path='/coin/:coinName' render={(props) => (
+              )}
+            />
+            <Route
+              exact
+              path="/coin/:coinName"
+              render={(props) => (
                 <>
                   <CoinPage {...props} />
                 </>
-              )} />
+              )}
+            />
           </Switch>
         </StyledContainer>
       </Router>

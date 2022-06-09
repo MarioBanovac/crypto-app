@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function CoinLink({className,name, image, id, symbol }){
+export default function CoinLink({ className, name, image, id, symbol }) {
   return (
     <a className={className} href={`/coin/${id}`}>
       <img src={image}></img>
@@ -8,4 +8,4 @@ export default function CoinLink({className,name, image, id, symbol }){
       <span>({symbol.toUpperCase()})</span>
     </a>
   );
-};
+}

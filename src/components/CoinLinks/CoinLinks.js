@@ -2,7 +2,6 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { StyledFlexContainer, ContentContainer } from "ui";
 import { formatURL } from "utils";
 import { ReactComponent as CopyIcon } from "icons/copy.svg";
