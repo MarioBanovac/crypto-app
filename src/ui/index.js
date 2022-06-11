@@ -1,5 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { NavLink } from "react-router-dom";
+import NumberFormat from "react-number-format";
 import {
   CurrencyChanger,
   MarketData,
@@ -29,6 +30,16 @@ body{
   height:100vh;
   overflow-y:auto;
   overflow-x:hidden;
+
+  input:focus {
+    outline: none;
+  } 
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
   &::-webkit-scrollbar {
     width: 10px;
@@ -356,8 +367,8 @@ export const StyledPriceChartContainer = styled(PriceChartContainer)`
     width: 100%;
   }
 
-  canvas{
-    width:${({fullScreen})=>fullScreen?"100vw":"100%"};
+  canvas {
+    width: ${({ fullScreen }) => (fullScreen ? "100vw" : "100%")};
   }
 `;
 
@@ -568,6 +579,10 @@ export const StyledSpan = styled.span`
   padding: ${({ padding }) => padding};
   margin: ${({ margin }) => margin};
   width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  line-height: ${({ lineHeight }) => lineHeight};
+  background-color: ${({ backgroundColor }) => backgroundColor};
+  border-radius: ${({ borderRadius }) => borderRadius};
 `;
 
 export const StyledParagraph = styled.p`
@@ -602,4 +617,18 @@ export const StyledRadioButton = styled(RadioButton)`
       transition: background 0.15s, box-shadow 0.1s;
     }
   }
+`;
+
+
+export const StyledNumberFormat = styled(NumberFormat)`
+  font-size: ${({ fontSize }) => fontSize};
+  padding: ${({ padding }) => padding};
+  margin: ${({ margin }) => margin};
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  background-color: ${({ backgroundColor }) => backgroundColor};
+  border-radius: ${({ borderRadius }) => borderRadius};
+  border: ${({ border }) => border};
+  caret-color: ${({ caretColor }) => caretColor};
+  color: ${({ color }) => color};
 `;
