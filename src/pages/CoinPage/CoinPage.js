@@ -2,18 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { SpinnerCircular } from "spinners-react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLink, faLayerGroup } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { CoinPageContainer, StyledFlexContainer, StyledRadioButton } from "ui";
 import {
-  CoinPageContainer,
-  ContentContainer,
-  StyledFlexContainer,
-  StyledParagraph,
-  StyledRadioButton,
-  StyledPriceChartContainer,
-} from "ui";
-import { CoinDescription, CoinLinks, YourSummary } from "components";
+  CoinDescription,
+  CoinLinks,
+  YourSummary,
+  CurrencyConverter,
+} from "components";
 import { formatCoinName, toUTCDate, getFormattedDate } from "utils";
 import usePrevious from "utils";
 
@@ -107,7 +103,6 @@ export default function CoinPage(props) {
     setDataReady(true);
     setIsLoading(false);
   };
-
 
   // later for chart
 
@@ -218,6 +213,12 @@ export default function CoinPage(props) {
                 />
               ))}
             </StyledFlexContainer>
+            <CurrencyConverter
+              currency={currency}
+              currencySymbol={currencySymbol}
+              coinSymbol={coinSymbol}
+              price={price}
+            />
           </StyledFlexContainer>
         </>
       ) : (
