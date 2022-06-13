@@ -1,10 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { StyledPriceChartContainer,StyledVolumeChartContainer ,CoinsPageContainer,StyledChartsContainer, StyledTimeFrameChanger,StyledCoinsTableContainer} from "ui";
+import {
+  StyledPriceChartContainer,
+  StyledVolumeChartContainer,
+  CoinsPageContainer,
+  StyledChartsContainer,
+  StyledTimeFrameChanger,
+  StyledCoinsTableContainer,
+} from "ui";
 import { getFormattedDate } from "utils";
 import usePrevious from "utils";
-
 
 export default function CoinsPage() {
   const { currency, currencySymbol } = useSelector(
@@ -56,11 +62,10 @@ export default function CoinsPage() {
     if (
       prevValues?.currencySymbol !== currencySymbol ||
       prevValues?.timeFrames !== timeFrames
-      ) {
-        fetchChartData();
+    ) {
+      fetchChartData();
     }
   }, [currencySymbol, timeFrames]);
-
 
   const changeTimeFrame = ({ target: { innerText } }) => {
     const newTimeFrames = timeFrames.map((object) => {
@@ -121,6 +126,10 @@ export default function CoinsPage() {
           currencySymbol={currencySymbol}
           dates={dates}
           prices={prices}
+          isFullScreen={false}
+          background="#191b1f"
+          height="449px"
+          padding="16px 21px 0 0"
         />
         <StyledVolumeChartContainer
           currencySymbol={currencySymbol}
@@ -132,8 +141,7 @@ export default function CoinsPage() {
         changeTimeFrame={changeTimeFrame}
         timeFrames={timeFrames}
       />
-      <StyledCoinsTableContainer
-      />
+      <StyledCoinsTableContainer />
     </CoinsPageContainer>
   );
 }

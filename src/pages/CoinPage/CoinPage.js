@@ -3,7 +3,12 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { SpinnerCircular } from "spinners-react";
 import axios from "axios";
-import { CoinPageContainer, StyledFlexContainer, StyledRadioButton } from "ui";
+import {
+  CoinPageContainer,
+  StyledFlexContainer,
+  StyledRadioButton,
+  StyledPriceChartContainer,
+} from "ui";
 import {
   CoinDescription,
   CoinLinks,
@@ -19,10 +24,12 @@ export default function CoinPage(props) {
   );
 
   const [data, setData] = useState({});
+  const [dates, setDates] = useState([]);
+  const [prices, setPrices] = useState([]);
+  const [volumes, setVolumes] = useState([]);
   const [dataReady, setDataReady] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // this will be used for the chart on the bottom of the page
   const [timeFrames, setTimeFrames] = useState([
     {
       isActive: false,
@@ -72,20 +79,18 @@ export default function CoinPage(props) {
   let { pathname } = useLocation();
   const getCoinName = () => formatCoinName(pathname.split("/")[2]);
 
-  // this will be used for the chart later,commented on purpose
+  useEffect(() => {
+    fetchChartData();
+  }, []);
 
-  // useEffect(() => {
-  //   fetchChartData();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (
-  //     prevValues?.currencySymbol !== currencySymbol ||
-  //     prevValues?.timeFrames !== timeFrames
-  //   ) {
-  //     fetchChartData();
-  //   }
-  // }, [currencySymbol, timeFrames]);
+  useEffect(() => {
+    if (
+      prevValues?.currencySymbol !== currencySymbol ||
+      prevValues?.timeFrames !== timeFrames
+    ) {
+      fetchChartData();
+    }
+  }, [currencySymbol, timeFrames]);
 
   useEffect(() => {
     fetchCoinData(getCoinName());
@@ -104,41 +109,39 @@ export default function CoinPage(props) {
     setIsLoading(false);
   };
 
-  // later for chart
+  const fetchChartData = async () => {
+    const activeTimeFrame = timeFrames.filter(({ isActive }) => isActive)[0]
+      .value;
+    try {
+      const {
+        data: { prices, total_volumes },
+      } = await axios(
+        `https://api.coingecko.com/api/v3/coins/${getCoinName()}/market_chart?vs_currency=${currency}&days=${activeTimeFrame}&interval=${
+          activeTimeFrame <= 90 ? "hourly" : "daily"
+        }`
+      );
 
-  // const fetchChartData = async () => {
-  //   const activeTimeFrame = timeFrames.filter(({ isActive }) => isActive)[0]
-  //     .value;
-  //   try {
-  //     const {
-  //       data: { prices, total_volumes },
-  //     } = await axios(
-  //       `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${currency}&days=${activeTimeFrame}&interval=${
-  //         activeTimeFrame <= 90 ? "hourly" : "daily"
-  //       }`
-  //     );
+      const { dateArr, priceArr } = prices.reduce(
+        ({ dateArr, priceArr }, [date, price]) => ({
+          dateArr: [...dateArr, getFormattedDate(date)],
+          priceArr: [...priceArr, price],
+        }),
+        { dateArr: [], priceArr: [] }
+      );
 
-  //     const { dateArr, priceArr } = prices.reduce(
-  //       ({ dateArr, priceArr }, [date, price]) => ({
-  //         dateArr: [...dateArr, getFormattedDate(date)],
-  //         priceArr: [...priceArr, price],
-  //       }),
-  //       { dateArr: [], priceArr: [] }
-  //     );
-
-  //     const { volumesArr } = total_volumes.reduce(
-  //       ({ volumesArr }, [date, volume]) => ({
-  //         volumesArr: [...volumesArr, volume],
-  //       }),
-  //       { volumesArr: [] }
-  //     );
-  //     setDates(dateArr);
-  //     setPrices(priceArr);
-  //     setVolumes(volumesArr);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+      const { volumesArr } = total_volumes.reduce(
+        ({ volumesArr }, [date, volume]) => ({
+          volumesArr: [...volumesArr, volume],
+        }),
+        { volumesArr: [] }
+      );
+      setDates(dateArr);
+      setPrices(priceArr);
+      setVolumes(volumesArr);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const imageUrl = dataReady && data.image.small;
   const coinName = dataReady && data.name;
@@ -172,64 +175,80 @@ export default function CoinPage(props) {
   const coinLinks = dataReady && data.links.blockchain_site;
 
   return (
-    <CoinPageContainer>
+    <>
       {!isLoading ? (
         <>
-          <YourSummary
-            currency={currency}
-            currencySymbol={currencySymbol}
-            coinName={coinName}
-            coinSymbol={coinSymbol}
-            imageUrl={imageUrl}
-            homepage={homepage}
-            price={price}
-            price_change_percentage_24h_in_currency={
-              price_change_percentage_24h_in_currency
-            }
-            allTimeHigh={allTimeHigh}
-            allTimeHighDate={allTimeHighDate}
-            allTimeLow={allTimeLow}
-            allTimeLowDate={allTimeLowDate}
-            volume24H={volume24H}
-            marketCap={marketCap}
-            maxSupply={maxSupply}
-            circulatingSupply={circulatingSupply}
-            fullyDilutedValuation={fullyDilutedValuation}
-            currentPrice={currentPrice}
-          />
-          <CoinDescription description={description} />
-          <CoinLinks coinLinks={coinLinks} />
-          <StyledFlexContainer alignItems="center" flexDirection="column">
-            <StyledFlexContainer
-              justifyContent="space-between"
-              width="512px"
-              margin="0 0 23px 0"
-            >
-              {timeFrames.map(({ displayValue, isActive }) => (
-                <StyledRadioButton
-                  changeTimeFrame={changeTimeFrame}
-                  checked={isActive}
-                  value={displayValue}
-                />
-              ))}
-            </StyledFlexContainer>
-            <CurrencyConverter
+          <CoinPageContainer>
+            <YourSummary
               currency={currency}
               currencySymbol={currencySymbol}
+              coinName={coinName}
               coinSymbol={coinSymbol}
+              imageUrl={imageUrl}
+              homepage={homepage}
               price={price}
+              price_change_percentage_24h_in_currency={
+                price_change_percentage_24h_in_currency
+              }
+              allTimeHigh={allTimeHigh}
+              allTimeHighDate={allTimeHighDate}
+              allTimeLow={allTimeLow}
+              allTimeLowDate={allTimeLowDate}
+              volume24H={volume24H}
+              marketCap={marketCap}
+              maxSupply={maxSupply}
+              circulatingSupply={circulatingSupply}
+              fullyDilutedValuation={fullyDilutedValuation}
+              currentPrice={currentPrice}
             />
-          </StyledFlexContainer>
+            <CoinDescription description={description} />
+            <CoinLinks coinLinks={coinLinks} />
+            <StyledFlexContainer alignItems="center" flexDirection="column">
+              <StyledFlexContainer
+                justifyContent="space-between"
+                width="512px"
+                margin="0 0 23px 0"
+              >
+                {timeFrames.map(({ displayValue, isActive }) => (
+                  <StyledRadioButton
+                    changeTimeFrame={changeTimeFrame}
+                    checked={isActive}
+                    value={displayValue}
+                  />
+                ))}
+              </StyledFlexContainer>
+              <CurrencyConverter
+                currency={currency}
+                currencySymbol={currencySymbol}
+                coinSymbol={coinSymbol}
+                price={price}
+              />
+            </StyledFlexContainer>
+          </CoinPageContainer>
+          <div>mama</div>
+          <StyledPriceChartContainer
+            width="100%"
+            currencySymbol={currencySymbol}
+            dates={dates}
+            prices={prices}
+            isFullScreen={true}
+            background="transparent"
+            height="449px"
+            justifyContent="end"
+            alignItems="center"
+          />
         </>
       ) : (
-        <SpinnerCircular
-          style={{
-            position: "absolute",
-            left: "50%",
-            transform: "translateX(-50%)",
-          }}
-        />
+        <CoinPageContainer>
+          <SpinnerCircular
+            style={{
+              position: "absolute",
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
+          />
+        </CoinPageContainer>
       )}
-    </CoinPageContainer>
+    </>
   );
 }
