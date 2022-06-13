@@ -225,7 +225,6 @@ export default function CoinPage(props) {
               />
             </StyledFlexContainer>
           </CoinPageContainer>
-          <div>mama</div>
           <StyledPriceChartContainer
             width="100%"
             currencySymbol={currencySymbol}
