@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { ReactComponent as SearchLogo } from "icons/search.svg";
 import { StyledSearchContainer, StyledForm, StyledLoadingList } from "ui";
-import {SearchList}  from "components";
+import {SearchList,SearchIcon}  from "components";
 
 export default function SearchContainer(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +40,8 @@ export default function SearchContainer(props) {
   return (
     <StyledSearchContainer>
       <StyledForm onSubmit={handleSubmit}>
-        <SearchLogo />
+        {/* <SearchLogo /> */}
+        <SearchIcon />
         <input
           onChange={handleChange}
           type={"search"}

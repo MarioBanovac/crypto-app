@@ -32,12 +32,12 @@ export default function CoinPage(props) {
 
   const [timeFrames, setTimeFrames] = useState([
     {
-      isActive: false,
+      isActive: true,
       value: 1,
       displayValue: "1d",
     },
     {
-      isActive: true,
+      isActive: false,
       value: 7,
       displayValue: "7d",
     },
@@ -231,7 +231,6 @@ export default function CoinPage(props) {
             dates={dates}
             prices={prices}
             isFullScreen={true}
-            background="transparent"
             height="449px"
             justifyContent="end"
             alignItems="center"

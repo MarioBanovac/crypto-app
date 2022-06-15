@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
+import { useTheme } from "styled-components";
 import { CurrencyInput, CoinInput } from "components";
 import { StyledFlexContainer } from "ui";
 
 export default function CurrencyConverter(props) {
+  const theme = useTheme();
   const { currency, currencySymbol, coinSymbol, price } = props;
   const currencyToCoinRatio = 1 / price;
   const coinToCurrencyRatio = 1 / currencyToCoinRatio;
@@ -30,7 +32,7 @@ export default function CurrencyConverter(props) {
       />
       <a>
         {" "}
-        <FontAwesomeIcon color={"#fff"} icon={faRightLeft} size={"lg"} />
+        <FontAwesomeIcon color={theme.textColor} icon={faRightLeft} size={"lg"} />
       </a>
       <CoinInput
         changeFirstValue={changeFirstValue}

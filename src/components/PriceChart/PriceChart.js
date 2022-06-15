@@ -1,4 +1,5 @@
 import React from "react";
+import { useTheme } from "styled-components";
 import { Line } from "react-chartjs-2";
 
 import {
@@ -28,6 +29,9 @@ import {
   Tooltip,
   SubTitle,
 } from "chart.js";
+import { SpinnerCircular } from "spinners-react";
+
+import { isThemeDark, isThemeLight } from "utils";
 
 Chart.register(
   ArcElement,
@@ -56,9 +60,8 @@ Chart.register(
   SubTitle
 );
 
-
-
 export default function PriceChart(props) {
+  const theme = useTheme();
   const { dates, prices, currencySymbol, isLoading, isFullScreen } = props;
   const labels = dates;
   const data = {
@@ -67,17 +70,21 @@ export default function PriceChart(props) {
       {
         label: "Dataset 1",
         data: dates.map((date, i) => prices[i]),
-        borderColor: isFullScreen ? "#191B1F" : "#00FF5F",
+        borderColor: isFullScreen
+          ? theme.main
+          : isThemeDark(theme)
+          ? theme.mainPositive
+          : theme.mainNeutral,
         tension: 0.4,
-        pointBorderColor: "rgba(0, 0, 0, 0)",
-        pointBackgroundColor: "rgba(0, 0, 0, 0)",
+        pointBorderColor: theme.transparentDark,
+        pointBackgroundColor: theme.transparentDark,
         backgroundColor: (context) => {
           const ctx = context.chart.ctx;
           const gradient = ctx.createLinearGradient(0, 0, 0, 350);
           isFullScreen
-            ? gradient.addColorStop(0, "rgba(64,64,64,1)")
-            : gradient.addColorStop(0, "rgba(0,255,95,0.15)");
-          gradient.addColorStop(1, "rgba(25,27,31,0.15)");
+            ? gradient.addColorStop(0, theme.secondaryTopGradient)
+            : gradient.addColorStop(0, theme.primaryTopGradient);
+          gradient.addColorStop(1, theme.bottomGradient);
           return gradient;
         },
         fill: {
@@ -114,13 +121,14 @@ export default function PriceChart(props) {
         position: "top",
       },
       tooltip: {
-        enabled:!isFullScreen,
+        enabled: !isFullScreen,
         intersect: false,
-        titleColor: "#00FF5F",
+        titleColor: isThemeDark(theme) ? theme.mainPositive : theme.mainNeutral,
         titleAlign: "center",
         bodyAlign: "center",
         padding: 10,
         displayColors: false,
+        backgroundColor: isThemeLight(theme) && "#fff",
         callbacks: {
           title: function (context) {
             return `${context[0].label}`;
@@ -129,11 +137,26 @@ export default function PriceChart(props) {
             return context.formattedValue + ` ${currencySymbol}`;
           },
           labelTextColor: function (context) {
-            return "#00FF5F";
+            return isThemeDark(theme) ? theme.mainPositive : theme.mainNeutral;
           },
         },
       },
     },
   };
-  return <div>{!isLoading && <Line options={options} data={data} />}</div>;
+  return (
+    <div>
+      {!isLoading ? (
+        <Line options={options} data={data} />
+      ) : (
+        <SpinnerCircular
+          style={{
+            position: "absolute",
+            left: "50%",
+            top:"50%",
+            transform: "translate(-50%,-50%)",
+          }}
+        />
+      )}
+    </div>
+  );
 }

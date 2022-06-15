@@ -11,7 +11,7 @@ const initialState = {
 };
 
 export const CURRENCY_CHANGE_CURRENCY_SUCCESS =
-  " CURRENCY_CHANGE_CURRENCY_SUCCESS";
+  "CURRENCY_CHANGE_CURRENCY_SUCCESS";
 
 export default function (state = initialState, action) {
   switch (action.type) {

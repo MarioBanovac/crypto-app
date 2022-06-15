@@ -1,6 +1,6 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import  {SearchContainer}  from "components";
+import { useSelector,useDispatch } from "react-redux";
+import { SearchContainer } from "components";
 import {
   StyledNavList,
   StyledNavbar,
@@ -9,12 +9,19 @@ import {
   StyledThemeChanger,
   StyledMarketData,
 } from "ui";
+import { changeActiveTheme } from "store/theme/theme.actions";
 
-export default function Navbar(props){
+export default function Navbar(props) {
+  const dispatch = useDispatch();
+  const { currency, currencySymbol } = useSelector(
+    (state) => state.currencyDetails
+  );
 
-  const {currency,currencySymbol} = useSelector((state)=>state.currencyDetails)
-  const {handleCurrencyChange } = props;
-  
+
+  const changeTheme = ()=>{
+    dispatch(changeActiveTheme())
+  }
+
   return (
     <StyledNavbar>
       <StyledNavList>
@@ -32,11 +39,10 @@ export default function Navbar(props){
         <StyledCurrencyChanger
           currency={currency}
           currencySymbol={currencySymbol}
-          handleCurrencyChange={handleCurrencyChange}
         />
-        <StyledThemeChanger />
+        <StyledThemeChanger onClick={changeTheme} />
         <StyledMarketData currency={currency} currencySymbol={currencySymbol} />
       </StyledNavList>
     </StyledNavbar>
   );
-};
+}

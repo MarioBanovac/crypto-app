@@ -4,6 +4,7 @@ import NumberFormat from "react-number-format";
 import {
   CurrencyChanger,
   MarketData,
+  ChartsContainer,
   PriceChartContainer,
   VolumeChartContainer,
   CoinsTableContainer,
@@ -13,8 +14,10 @@ import {
   PercentageRounder,
   RadioButton,
 } from "components";
+import { isThemeDark,isThemeLight } from "utils";
 import Polygon from "icons/polygon.svg";
-import Theme from "icons/theme.svg";
+import darkTheme from "icons/darkTheme.svg";
+import lightTheme from "icons/lightTheme.svg";
 export const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
 * {
@@ -25,8 +28,8 @@ export const GlobalStyle = createGlobalStyle`
 
 body{
   font-family: 'Poppins', sans-serif;
-  background:#191B1F;
-  color:#fff;
+  background:${({ theme }) => theme.main};
+  color:${({ theme }) => theme.textColor};
   height:100vh;
   overflow-y:auto;
   overflow-x:hidden;
@@ -47,7 +50,7 @@ body{
 
 
 &::-webkit-scrollbar-thumb {
-  background-color: #2172e5;
+  background-color:${({ theme }) => theme.mainNeutral};
   border-radius:8px;
 }
 }
@@ -61,21 +64,25 @@ a{
   text-decoration:none;
   color:currentColor;
 }
+
+::selection{
+  color:${({theme})=>isThemeLight(theme)?theme.mainNeutral:theme.mainPositive};
+}
 `;
 
 export const StyledContainer = styled.div`
   max-width: 1920px;
   text-align: center;
   height: 100%;
-  border: 10px solid #191B1F;
+  border:10px solid ${({ theme }) => theme.main};
   margin 0 auto;
-  background:#1F2128;
+  background:${({ theme }) => theme.secondary};
 `;
 
 export const StyledNavbar = styled.nav`
   max-width: 1900px;
   height: 130px;
-  background: #191b1f;
+  background: ${({ theme }) => theme.main};
 `;
 
 export const StyledNavList = styled.ul`
@@ -84,7 +91,7 @@ export const StyledNavList = styled.ul`
   align-items: center;
   width: 100%;
   height: 100%;
-  background: #191b1f;
+  background: ${({ theme }) => theme.main};
   padding-left: 95px;
   border-radius: 10px 10px 0 0;
   & > li:nth-child(1) {
@@ -96,20 +103,20 @@ export const StyledNavList = styled.ul`
 `;
 
 export const StyledLink = styled(NavLink)`
-  color: #fff;
+  color: ${({ theme }) => theme.textColor};
   font-size: ${(props) => (props.children === "Coins" ? "23px" : "22px")};
   border-radius: 10px;
   padding: ${(props) =>
     props.children === "Coins" ? "12px 60px 14px 51px" : "12px 63px 15px 56px"};
   &.active {
-    background: #2c2f36;
+    background: ${({ theme }) => theme.tertiary};
   }
 `;
 
 export const StyledSearchContainer = styled.div`
   width: 510px;
   height: 63px;
-  background: #2c2f36;
+  background: ${({ theme }) => theme.tertiary};
   border-radius: 10px;
   margin-right: 27px;
   padding-top: 19.5px;
@@ -118,12 +125,12 @@ export const StyledSearchContainer = styled.div`
   position: relative;
 
   input {
-    color: #fafbfb;
+    color: ${({ theme }) => theme.textColor};
     background: none;
     border: 0;
     margin-left: 10px;
     padding-top: 3px;
-    caret-color: #fafbfb;
+    caret-color: ${({ theme }) => theme.textColor};
     font-size: 18px;
   }
 
@@ -139,7 +146,7 @@ export const StyledSearchContainer = styled.div`
   }
 
   input::placeholder {
-    color: #fafbfb;
+    color: ${({ theme }) => theme.textColor};
     font-size: 18px;
   }
 `;
@@ -156,7 +163,7 @@ export const StyledUl = styled.ul`
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: #2c2f36;
+  background: ${({ theme }) => theme.tertiary};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -171,7 +178,7 @@ export const StyledUl = styled.ul`
   }
 
   li:hover {
-    background: #191b1f;
+    background: ${({ theme }) => theme.main};
     width: 90%;
     border-radius: 8px;
   }
@@ -183,7 +190,7 @@ export const StyledLoadingList = styled.div`
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: #2c2f36;
+  background: ${({ theme }) => theme.tertiary};
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -196,7 +203,7 @@ export const StyledCurrencyChanger = styled(CurrencyChanger)`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #2c2f36;
+  background: ${({ theme }) => theme.tertiary};
   gap: 12.5px;
   width: 135px;
   height: 63px;
@@ -212,9 +219,9 @@ export const StyledCurrencyChanger = styled(CurrencyChanger)`
     align-items: center;
     width: 33px;
     height: 33px;
-    background: #191b1f;
+    background: #000;
     font-size: 17px;
-    color: #00ff5f;
+    color: ${({ theme }) => theme.mainPositive};
   }
 
   select {
@@ -225,7 +232,7 @@ export const StyledCurrencyChanger = styled(CurrencyChanger)`
     border: none;
     font-size: inherit;
     padding-right: 17px;
-    color: #fff;
+    color: ${({ theme }) => theme.textColor};
     background-image: url(${Polygon});
     background-repeat: no-repeat;
     background-position: calc(100% - 3px) center;
@@ -236,19 +243,21 @@ export const StyledCurrencyChanger = styled(CurrencyChanger)`
     outline: none;
   }
   select option {
-    background: #2c2f36;
+    background: ${({ theme }) => theme.tertiary};
   }
 `;
 
 export const StyledThemeChanger = styled.div`
   width: 67px;
   height: 63px;
-  background: #2c2f36;
+  background: ${({ theme }) => theme.tertiary};
   border-radius: 10px;
-  background-image: url(${Theme});
+  background-image: url(${({ theme }) =>
+    isThemeDark(theme) ? darkTheme : lightTheme});
   background-repeat: no-repeat;
   background-position: center;
   margin-right: 3px;
+  cursor:pointer;
 `;
 
 export const StyledMarketData = styled(MarketData)`
@@ -262,7 +271,7 @@ export const StyledMarketData = styled(MarketData)`
   width: 926px;
   height: 55px;
   border-radius: 0 0 10px 10px;
-  background: #191b1f;
+  background: ${({ theme }) => theme.main};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -283,7 +292,8 @@ export const StyledCircle = styled.div`
   right: ${({ right }) => right};
   height: ${({ height }) => (height ? height : "8px")};
   width: ${({ width }) => (width ? width : "8px")};
-  background-color: ${({ background }) => (background ? background : "#fff")};
+  background-color: ${({ background, theme }) =>
+    background ? background : theme.textColor};
   margin-right: ${({ marginRight }) => (marginRight ? marginRight : "13px")};
   border-radius: 50%;
   display: inline-block;
@@ -292,7 +302,7 @@ export const StyledCircle = styled.div`
 export const StyledProgressContainer = styled.div`
   position: relative;
   width: ${({ width }) => width}px;
-  background-color: #2172e5;
+  background-color: ${({ theme }) => theme.mainNeutral};
   height: 13px;
   border-radius: 10px;
   border: none;
@@ -307,7 +317,7 @@ export const StyledProgress = styled.div`
   top: 0;
   border-radius: 10px;
   border: none;
-  background: #fff;
+  background: ${({ theme }) => theme.textColor};
   width: ${({ percent }) => (percent === Infinity ? 100 : percent)}%;
   min-width: ${({ percent }) => (percent < 2 ? "2" : percent)}%;
 `;
@@ -326,8 +336,7 @@ export const CoinsPageContainer = styled.div`
   }
 `;
 
-export const StyledChartsContainer = styled.div`
-  display: flex;
+export const StyledChartsContainer = styled(ChartsContainer)`
   gap: 45px;
   margin-bottom: 60px;
 `;
@@ -336,14 +345,19 @@ export const StyledPriceChartContainer = styled(PriceChartContainer)`
   display: flex;
   flex-direction: column;
   width: ${({ width }) => (width ? width : "833px")};
-  height: ${({ height }) => (height)};
+  height: ${({ height }) => height};
   border-radius: 10px;
-  justify-content:${({justifyContent})=>justifyContent};
-  align-items:${({alignItems})=>alignItems};
-  background:${({background})=>background};
-  padding:${({padding})=>padding};
+  justify-content: ${({ justifyContent }) => justifyContent};
+  align-items: ${({ alignItems }) => alignItems};
+  background: ${({ isFullScreen, theme }) =>
+    isFullScreen ? theme.secondary : theme.main};
+  padding: ${({ padding }) => padding};
   text-align: left;
   position: relative;
+  border-radius: 12px;
+  box-shadow: 0px 0px 13px -14px rgba(0, 0, 0, 0.34);
+  -webkit-box-shadow: 0px 0px 13px -14px rgba(0, 0, 0, 0.34);
+  -moz-box-shadow: 0px 0px 13px -14px rgba(0, 0, 0, 0.34);
 
   p {
     margin-bottom: 4px;
@@ -367,7 +381,6 @@ export const StyledPriceChartContainer = styled(PriceChartContainer)`
     align-self: center;
     width: 100%;
   }
-
 `;
 
 export const StyledVolumeChartContainer = styled(VolumeChartContainer)`
@@ -376,12 +389,15 @@ export const StyledVolumeChartContainer = styled(VolumeChartContainer)`
 
   width: 833px;
   height: 449px;
-  border-radius: 10px;
-  background: #191b1f;
+  border-radius: 12px;
+  background: ${({ theme }) => theme.main};
   padding-top: 16px;
   padding-right: 21px;
   text-align: left;
   position: relative;
+  box-shadow: 0px 0px 13px -14px rgba(0, 0, 0, 0.34);
+  -webkit-box-shadow: 0px 0px 13px -14px rgba(0, 0, 0, 0.34);
+  -moz-box-shadow: 0px 0px 13px -14px rgba(0, 0, 0, 0.34);
 
   p {
     margin-bottom: 4px;
@@ -411,7 +427,7 @@ export const StyledTimeFrameChanger = styled(TimeFrameChanger)`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: #2c2d33;
+  background: ${({ theme }) => theme.tertiary};
   max-width: 550px;
   height: 60px;
   margin: 0 auto 20px auto;
@@ -423,13 +439,14 @@ export const StyledTimeFrame = styled.div`
   cursor: pointer;
   padding: 10px;
   border-radius: 10px;
-  background: ${({ isActive }) => (isActive ? "#00FF5F" : "transparent")};
+  background: ${({ isActive, theme }) =>
+    isActive ? theme.mainPositive : "transparent"};
 `;
 
 export const StyledCoinsTableContainer = styled(CoinsTableContainer)`
   max-width: 1712px;
   min-height: 951px;
-  background: #191b1f;
+  background: ${({ theme }) => theme.main};
   padding: 0 21px 21px 21px;
   border-radius: 10px;
 `;
@@ -450,7 +467,7 @@ export const StyledCoinsTable = styled(CoinsTable)`
   thead th {
     padding-top: 45px;
     padding-bottom: 21px;
-    background: #191b1f;
+    background: ${({ theme }) => theme.main};
   }
 
   tbody {
@@ -458,7 +475,7 @@ export const StyledCoinsTable = styled(CoinsTable)`
   }
 
   tr {
-    border-bottom: 0.5px solid rgba(70, 70, 70, 0.3);
+    border-bottom: 0.5px solid ${({ theme }) => theme.tertiary};
     height: 95px;
   }
 
@@ -511,7 +528,8 @@ export const StyledFlexContainer = styled.div`
 `;
 
 export const StyledPercentageRounder = styled(PercentageRounder)`
-  color: ${({ percentage }) => (percentage >= 0 ? "#00FC2A" : "#FE1040")};
+  color: ${({ percentage, theme }) =>
+    percentage >= 0 ? theme.mainPositive : theme.mainNegative};
 `;
 
 export const StyledTableChartContainer = styled.div`
@@ -556,8 +574,8 @@ export const ContentContainer = styled.div`
   width: ${({ width }) => width};
   min-width: ${({ minWidth }) => minWidth};
   height: ${({ height }) => height};
-  background: #191b1f;
-  color: #fff;
+  background: ${({ theme }) => theme.main};
+  color: ${({ theme }) => theme.textColor};
   text-align: ${({ textAlign }) => textAlign};
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
@@ -566,13 +584,12 @@ export const ContentContainer = styled.div`
 
 export const CoinImage = styled.img`
   padding: 30px;
-  background: #1f2128;
+  background: ${({ theme }) => theme.secondary};
   border-radius: 12px;
   margin-bottom: 10px;
 `;
 
 export const StyledSpan = styled.span`
-  color: #fff;
   font-size: ${({ fontSize }) => fontSize};
   padding: ${({ padding }) => padding};
   margin: ${({ margin }) => margin};
@@ -588,7 +605,7 @@ export const StyledParagraph = styled.p`
   margin: ${({ margin }) => margin};
   line-height: ${({ lineHeight }) => lineHeight};
   a {
-    color: #00fc2a;
+    color: ${({ theme }) => theme.mainPositive};
   }
 `;
 
@@ -598,9 +615,9 @@ export const StyledRadioButton = styled(RadioButton)`
     height: 27px;
     margin-right: 8px;
     background-color: transparent;
-    border: 0.0825em solid #009719;
+    border: 0.0825em solid ${({ theme }) => theme.mainPositive};
     border-radius: 50%;
-    box-shadow: inset 0 0 0 0 white;
+    box-shadow: inset 0 0 0 0 ${({ theme }) => theme.textColor};
     cursor: pointer;
     font: inherit;
     height: 2em;
@@ -609,8 +626,8 @@ export const StyledRadioButton = styled(RadioButton)`
     -moz-appearance: none;
     -webkit-appearance: none;
     &:checked {
-      background-color: #00fc2a;
-      box-shadow: inset 0 0 0 0.1875em #009719;
+      background-color: ${({ theme }) => theme.mainPositive};
+      box-shadow: inset 0 0 0 0.1875em ${({ theme }) => theme.secondaryPositive};
       -webkit-transition: background 0.15s, box-shadow 0.1s;
       transition: background 0.15s, box-shadow 0.1s;
     }

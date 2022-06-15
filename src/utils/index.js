@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export const nFormatter = (num, digits) => {
   const lookup = [
@@ -115,4 +115,12 @@ export function isEmpty(str){
 
 export function toUTCDate(str){
   return new Date(str).toUTCString()
+}
+
+export function isThemeDark(theme){
+  return theme.name==="darkTheme"
+}
+
+export function isThemeLight(theme){
+  return theme.name==="lightTheme"
 }
