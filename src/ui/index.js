@@ -335,12 +335,13 @@ export const StyledChartsContainer = styled.div`
 export const StyledPriceChartContainer = styled(PriceChartContainer)`
   display: flex;
   flex-direction: column;
-  width: ${({ fullScreen }) => (fullScreen ? "100vw" : "833px")};
-  height: 449px;
+  width: ${({ width }) => (width ? width : "833px")};
+  height: ${({ height }) => (height)};
   border-radius: 10px;
-  background: #191b1f;
-  padding-top: 16px;
-  padding-right: 21px;
+  justify-content:${({justifyContent})=>justifyContent};
+  align-items:${({alignItems})=>alignItems};
+  background:${({background})=>background};
+  padding:${({padding})=>padding};
   text-align: left;
   position: relative;
 
@@ -367,9 +368,6 @@ export const StyledPriceChartContainer = styled(PriceChartContainer)`
     width: 100%;
   }
 
-  canvas {
-    width: ${({ fullScreen }) => (fullScreen ? "100vw" : "100%")};
-  }
 `;
 
 export const StyledVolumeChartContainer = styled(VolumeChartContainer)`
@@ -618,7 +616,6 @@ export const StyledRadioButton = styled(RadioButton)`
     }
   }
 `;
-
 
 export const StyledNumberFormat = styled(NumberFormat)`
   font-size: ${({ fontSize }) => fontSize};

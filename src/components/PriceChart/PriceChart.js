@@ -56,8 +56,10 @@ Chart.register(
   SubTitle
 );
 
-export default function PriceChart(props){
-  const { dates, prices, currencySymbol, isLoading } = props;
+
+
+export default function PriceChart(props) {
+  const { dates, prices, currencySymbol, isLoading, isFullScreen } = props;
   const labels = dates;
   const data = {
     labels,
@@ -65,14 +67,16 @@ export default function PriceChart(props){
       {
         label: "Dataset 1",
         data: dates.map((date, i) => prices[i]),
-        borderColor: "#00FF5F",
+        borderColor: isFullScreen ? "#191B1F" : "#00FF5F",
         tension: 0.4,
         pointBorderColor: "rgba(0, 0, 0, 0)",
         pointBackgroundColor: "rgba(0, 0, 0, 0)",
         backgroundColor: (context) => {
           const ctx = context.chart.ctx;
           const gradient = ctx.createLinearGradient(0, 0, 0, 350);
-          gradient.addColorStop(0, "rgba(0,255,95,0.15)");
+          isFullScreen
+            ? gradient.addColorStop(0, "rgba(64,64,64,1)")
+            : gradient.addColorStop(0, "rgba(0,255,95,0.15)");
           gradient.addColorStop(1, "rgba(25,27,31,0.15)");
           return gradient;
         },
@@ -94,6 +98,7 @@ export default function PriceChart(props){
           display: false,
         },
         ticks: {
+          display: !isFullScreen,
           maxTicksLimit: 7,
           labelOffset: 50,
           maxRotation: 0,
@@ -109,6 +114,7 @@ export default function PriceChart(props){
         position: "top",
       },
       tooltip: {
+        enabled:!isFullScreen,
         intersect: false,
         titleColor: "#00FF5F",
         titleAlign: "center",
@@ -130,5 +136,4 @@ export default function PriceChart(props){
     },
   };
   return <div>{!isLoading && <Line options={options} data={data} />}</div>;
-};
-
+}
