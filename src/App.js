@@ -4,15 +4,16 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { CoinsPage, PortfolioPage } from "pages";
 import CoinPage from "pages/CoinPage";
-import { GlobalStyle, StyledContainer } from "ui";
+import { GlobalStyle,DarkTheme,LightTheme, StyledContainer } from "ui";
 import { Navbar } from "components";
+
 
 function App(props) {
   const theme = useSelector((state) => state.theme);
   const isDarkTheme = theme.darkThemeEnabled;
   return (
     <>
-      <ThemeProvider theme={isDarkTheme ? theme.darkTheme : theme.lightTheme}>
+      <ThemeProvider theme={isDarkTheme ? DarkTheme : LightTheme}>
         <Router>
           <GlobalStyle />
           <StyledContainer>

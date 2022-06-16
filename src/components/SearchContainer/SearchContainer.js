@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { StyledSearchContainer, StyledForm, StyledLoadingList } from "ui";
-import {SearchList,SearchIcon}  from "components";
+import { SearchList, SearchIcon } from "components";
 
 export default function SearchContainer(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,11 +36,10 @@ export default function SearchContainer(props) {
       console.error(`Failed to fetch data ${error}`);
     }
   };
-  
+
   return (
     <StyledSearchContainer>
       <StyledForm onSubmit={handleSubmit}>
-        {/* <SearchLogo /> */}
         <SearchIcon />
         <input
           onChange={handleChange}

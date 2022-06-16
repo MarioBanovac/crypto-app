@@ -14,10 +14,45 @@ import {
   PercentageRounder,
   RadioButton,
 } from "components";
-import { isThemeDark,isThemeLight } from "utils";
+import { isThemeDark, isThemeLight } from "utils";
 import Polygon from "icons/polygon.svg";
 import darkTheme from "icons/darkTheme.svg";
 import lightTheme from "icons/lightTheme.svg";
+
+export const DarkTheme = {
+  name: "darkTheme",
+  main: "#191B1F",
+  secondary: "#1F2128",
+  tertiary: "#2c2f36",
+  textColor: "#fff",
+  mainPositive: "#00FF5F",
+  secondaryPositive: "#009719",
+  tertiaryPositive: "#06D554",
+  mainNegative: "#FE1040",
+  mainNeutral: "#2172e5",
+  transparentDark: "rgba(0,0,0,0)",
+  primaryTopGradient: "rgba(0,255,95,0.15)",
+  secondaryTopGradient: "rgba(64,64,64,1)",
+  bottomGradient: "rgba(25,27,31,0.15)",
+};
+
+export const LightTheme = {
+  main: "#FFF",
+  secondary: "#FCFCFC",
+  tertiary: "#eee",
+  textColor: "#2C2F36",
+  mainPositive: "#06D554",
+  secondaryPositive: "#009719",
+  tertiaryPositive: "#06D554",
+  mainNegative: "#FE1040",
+  mainNeutral: "#2172e5",
+  transparentDark: "rgba(0,0,0,0)",
+  primaryTopGradient: "rgba(37,80,234,0.41)",
+  secondaryTopGradient: "rgba(64,64,64,1)",
+  bottomGradient: "rgba(255,255,255,0.15)",
+  name: "lightTheme",
+};
+
 export const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
 * {
@@ -66,7 +101,8 @@ a{
 }
 
 ::selection{
-  color:${({theme})=>isThemeLight(theme)?theme.mainNeutral:theme.mainPositive};
+  color:${({ theme }) =>
+    isThemeLight(theme) ? theme.mainNeutral : theme.mainPositive};
 }
 `;
 
@@ -257,7 +293,7 @@ export const StyledThemeChanger = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   margin-right: 3px;
-  cursor:pointer;
+  cursor: pointer;
 `;
 
 export const StyledMarketData = styled(MarketData)`

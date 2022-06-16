@@ -83,18 +83,21 @@ export function formatCoinName(coinName) {
     .join("");
 }
 
-export function formatCoinPrice(currencySymbol,num,hasSymbol) {
+export function formatCoinPrice(currencySymbol, num, hasSymbol) {
   const options = {
     minimumFractionDigits: 2,
     maximumFractionDigits: 7,
   };
-  switch(num){
+  switch (num) {
     case undefined:
-      return " -"
+      return " -";
     case null:
-      return "Infinity "
+      return "Infinity ";
     default:
-      return `${hasSymbol ? currencySymbol:""}${Number(num).toLocaleString("en", options)}`
+      return `${hasSymbol ? currencySymbol : ""}${Number(num).toLocaleString(
+        "en",
+        options
+      )}`;
   }
 }
 
@@ -109,18 +112,18 @@ export function formatURL(url) {
   return;
 }
 
-export function isEmpty(str){
-  return str.length <= 0 ? true:false
+export function isEmpty(str) {
+  return str.length <= 0 ? true : false;
 }
 
-export function toUTCDate(str){
-  return new Date(str).toUTCString()
+export function toUTCDate(str) {
+  return new Date(str).toUTCString();
 }
 
-export function isThemeDark(theme){
-  return theme.name==="darkTheme"
+export function isThemeDark(theme) {
+  return theme.name === "darkTheme";
 }
 
-export function isThemeLight(theme){
-  return theme.name==="lightTheme"
+export function isThemeLight(theme) {
+  return theme.name === "lightTheme";
 }

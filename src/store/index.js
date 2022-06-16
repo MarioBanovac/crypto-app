@@ -13,7 +13,7 @@ const currencyDetailsConfig = {
 const themeConfig = {
   key: "theme",
   storage,
-  whitelist: ["darkThemeEnabled", "darkTheme", "lightTheme"],
+  whitelist: ["darkThemeEnabled"],
 };
 
 const persistConfig = {
