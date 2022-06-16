@@ -1,7 +1,10 @@
 import React from "react";
+import { useTheme } from "styled-components";
 import { StyledFlexContainer, StyledSpan, StyledNumberFormat } from "ui";
 
 export default function CoinInput(props) {
+  const theme = useTheme();
+
   const { coinSymbol, value, changeFirstValue } = props;
   return (
     <StyledFlexContainer
@@ -13,7 +16,7 @@ export default function CoinInput(props) {
       <StyledSpan
         borderRadius="12px 0 0 12px"
         lineHeight="45px"
-        backgroundColor="rgb(6, 213, 84)"
+        backgroundColor={theme.tertiaryPositive}
         width="83px"
       >
         {coinSymbol.toUpperCase()}
@@ -26,7 +29,7 @@ export default function CoinInput(props) {
       >
         <StyledSpan
           lineHeight="45px"
-          backgroundColor="#2C2D33"
+          backgroundColor={theme.tertiary}
           padding="0 0 0 10px"
         >
           {coinSymbol.toUpperCase()}
@@ -34,10 +37,10 @@ export default function CoinInput(props) {
         <StyledNumberFormat
           value={value}
           border="none"
-          caretColor="#fff"
-          color="#fff"
+          caretColor={theme.textColor}
+          color={theme.textColor}
           borderRadius="0 12px 12px 0"
-          backgroundColor="#2C2D33"
+          backgroundColor={theme.tertiary}
           padding="9px"
           width="100%"
           height="100%"

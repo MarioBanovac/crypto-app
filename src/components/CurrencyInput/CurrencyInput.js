@@ -1,14 +1,16 @@
 import React from "react";
+import { useTheme } from "styled-components";
 import { StyledFlexContainer, StyledSpan, StyledNumberFormat } from "ui";
 
 export default function CurrencyInput(props) {
+  const theme = useTheme();
   const { currency, currencySymbol, changeSecondValue, value } = props;
   return (
     <StyledFlexContainer alignItems="center" width="331px" height="45px">
       <StyledSpan
         borderRadius="12px 0 0 12px"
         lineHeight="45px"
-        backgroundColor="rgb(6, 213, 84)"
+        backgroundColor={theme.tertiaryPositive}
         width="83px"
       >
         {currency}
@@ -21,7 +23,7 @@ export default function CurrencyInput(props) {
       >
         <StyledSpan
           lineHeight="45px"
-          backgroundColor="#2C2D33"
+          backgroundColor={theme.tertiary}
           padding="0 0 0 10px"
         >
           {currencySymbol}
@@ -29,10 +31,10 @@ export default function CurrencyInput(props) {
         <StyledNumberFormat
           value={value}
           border="none"
-          caretColor="#fff"
-          color="#fff"
+          caretColor={theme.textColor}
+          color={theme.textColor}
           borderRadius="0 12px 12px 0"
-          backgroundColor="#2C2D33"
+          backgroundColor={theme.tertiary}
           padding="9px"
           width="100%"
           height="100%"

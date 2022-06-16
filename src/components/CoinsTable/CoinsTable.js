@@ -3,9 +3,17 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroller";
 import { SpinnerCircular } from "spinners-react";
-import TableChart from 'components/TableChart/TableChart'
+import TableChart from "components/TableChart/TableChart";
 import DirectionIcon from "components/DirectionIcon/DirectionIcon";
-import {StyledFlexContainer,StyledPercentageRounder,StyledCircle,StyledProgressContainer,StyledProgress,StyledCoinLink,StyledTableSpan} from "ui"
+import {
+  StyledFlexContainer,
+  StyledPercentageRounder,
+  StyledCircle,
+  StyledProgressContainer,
+  StyledProgress,
+  StyledCoinLink,
+  StyledTableSpan,
+} from "ui";
 import { nFormatter } from "utils";
 import usePrevious from "utils";
 
@@ -14,23 +22,21 @@ export default function CoinsTable(props) {
     (state) => state.currencyDetails
   );
   const [tableData, setTableData] = useState([]);
-  const [fakeDates, setFakeDates] = useState([...Array(169).fill(0)]);
+  const [fakeDates] = useState([...Array(169).fill(0)]);
   const [page, setPage] = useState(1);
-  const [currencyChanged,setCurrencyChanged] = useState(false);
+  const [currencyChanged, setCurrencyChanged] = useState(false);
   const prevValues = usePrevious(currency);
-
-
 
   useEffect(() => {
     if (prevValues && prevValues.currency !== currency) {
       setTableData([]);
-      setPage(1)
+      setPage(1);
       setCurrencyChanged(true);
     }
   }, [currency]);
 
   useEffect(() => {
-    if(currencyChanged){
+    if (currencyChanged) {
       fetchTableData();
     }
   }, [currencyChanged]);
@@ -42,12 +48,11 @@ export default function CoinsTable(props) {
           currency || "usd"
         }&order=market_cap_desc&per_page=15&page=${page}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
       );
-      !currencyChanged && setTableData((prevTableData) => {
-        return [...prevTableData, ...data];
+      setTableData((prevTableData) => {
+        return prevTableData.concat(data);
       });
-      currencyChanged && setTableData([...data])
       setPage((prevPage) => prevPage + 1);
-      currencyChanged && setCurrencyChanged(false)
+      currencyChanged && setCurrencyChanged(false);
     } catch (err) {
       console.log(err);
     }
@@ -72,7 +77,7 @@ export default function CoinsTable(props) {
       <InfiniteScroll
         initialLoad={false}
         pageStart={0}
-        hasMore={ true ||false}
+        hasMore={true || false}
         loadMore={fetchTableData}
         loader={
           <SpinnerCircular
@@ -108,7 +113,12 @@ export default function CoinsTable(props) {
               <td>{market_cap_rank}</td>
               <td>
                 <StyledFlexContainer>
-                  <StyledCoinLink name={name} image={image} id={id} symbol={symbol} />
+                  <StyledCoinLink
+                    name={name}
+                    image={image}
+                    id={id}
+                    symbol={symbol}
+                  />
                 </StyledFlexContainer>
               </td>
               <td>
@@ -152,7 +162,13 @@ export default function CoinsTable(props) {
                     {currencySymbol}
                     {nFormatter(total_volume, 2)}
                   </StyledTableSpan>
-                  <StyledProgress percent={total_volume<=market_cap ? (total_volume / market_cap) * 100:100} />
+                  <StyledProgress
+                    percent={
+                      total_volume <= market_cap
+                        ? (total_volume / market_cap) * 100
+                        : 100
+                    }
+                  />
                   <StyledCircle
                     position="absolute"
                     bottom="20px"
@@ -190,7 +206,6 @@ export default function CoinsTable(props) {
                 <TableChart
                   dates={fakeDates}
                   prices={price}
-                  currencySymbol={currencySymbol}
                   last7d={price_change_percentage_7d_in_currency}
                 />
               </td>

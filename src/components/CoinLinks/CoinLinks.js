@@ -1,12 +1,14 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
+import { useTheme } from "styled-components";
 import { toast, ToastContainer } from "react-toastify";
 import { StyledFlexContainer, ContentContainer } from "ui";
 import { formatURL } from "utils";
 import { ReactComponent as CopyIcon } from "icons/copy.svg";
 
 export default function CoinLinks(props) {
+  const theme = useTheme();
   const { coinLinks } = props;
   const notify = (text) => {
     navigator.clipboard.writeText(text);
@@ -76,7 +78,7 @@ export default function CoinLinks(props) {
         </a>
       </ContentContainer>
       <ToastContainer
-        toastStyle={{ backgroundColor: "#191B1F", color: "#00FC2A" }}
+        toastStyle={{backgroundColor:theme.main,color:theme.mainPositive}}
         autoClose={2000}
       />
     </StyledFlexContainer>

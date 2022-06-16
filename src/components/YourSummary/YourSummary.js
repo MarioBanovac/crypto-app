@@ -6,6 +6,7 @@ import {
   faLayerGroup,
   faLink,
 } from "@fortawesome/free-solid-svg-icons";
+import { useTheme } from "styled-components";
 import { ReactComponent as PlusIcon } from "icons/plus.svg";
 import {
   StyledFlexContainer,
@@ -19,6 +20,7 @@ import { formatCoinPrice } from "utils";
 import DirectionIcon from "components/DirectionIcon";
 
 export default function YourSummary(props) {
+  const theme = useTheme();
   const {
     currencySymbol,
     coinName,
@@ -110,7 +112,7 @@ export default function YourSummary(props) {
           </div>
           <StyledFlexContainer flexDirection="column" alignItems="start">
             <StyledFlexContainer height="48px" margin="26px 0 0 0">
-              <FontAwesomeIcon color={"#00FC2A"} icon={faCaretUp} size={"lg"} />
+              <FontAwesomeIcon color={theme.mainPositive} icon={faCaretUp} size={"lg"} />
               <StyledFlexContainer
                 flexDirection="column"
                 alignItems="start"
@@ -127,7 +129,7 @@ export default function YourSummary(props) {
             </StyledFlexContainer>
             <StyledFlexContainer height="48px" marginTop="26px">
               <FontAwesomeIcon
-                color={"#FE1040"}
+                color={theme.mainNegative}
                 icon={faCaretDown}
                 size={"lg"}
               />

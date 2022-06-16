@@ -3,7 +3,7 @@ import PriceChart from "components/PriceChart/PriceChart";
 import { getFormattedDate, overviewFormatter } from "utils";
 
 export default function PriceChartContainer(props) {
-  const { currencySymbol, dates, prices, isLoading, isFullScreen, className } =
+  const { currencySymbol, dates, prices, isFullScreen,isLoading, className } =
     props;
   return (
     <div className={className}>

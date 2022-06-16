@@ -1,5 +1,6 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
+import { useTheme } from "styled-components";
 import { StyledTableChartContainer } from "ui";
 
 import {
@@ -58,8 +59,9 @@ Chart.register(
 );
 
 export default function TableChart(props){
+  const theme = useTheme();
   const { dates, prices, last7d } = props;
-  const borderColor = last7d >= 0 ? "#00FC2A" : "#FE1040";
+  const borderColor = last7d >= 0 ? theme.mainPositive : theme.mainNegative;
   const labels = dates;
   const data = {
     labels,
@@ -69,8 +71,8 @@ export default function TableChart(props){
         data: dates.map((date, i) => prices[i]),
         borderColor: borderColor,
         tension: 0.4,
-        pointBorderColor: "rgba(0, 0, 0, 0)",
-        pointBackgroundColor: "rgba(0, 0, 0, 0)",
+        pointBorderColor: theme.transparentDark,
+        pointBackgroundColor: theme.transparentDark,
       },
     ],
   };

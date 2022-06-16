@@ -1,9 +1,16 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import { changeCurrency } from "store/currency/currency.actions";
 
 export default function CurrencyChanger(props) {
+  const dispatch = useDispatch();
   const { currency, currencySymbol,symbols } = useSelector((state) => state.currencyDetails);
-  const { className, handleCurrencyChange } = props;
+  const { className } = props;
+
+  const handleCurrencyChange = ({ target: { value } }) => {
+      dispatch(changeCurrency(value));
+  }
+
   return (
     <div className={className}>
       <div>{currencySymbol}</div>
