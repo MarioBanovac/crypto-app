@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import { SpinnerCircular } from "spinners-react";
 import { useTheme } from "styled-components";
 import { ReactComponent as BitcoinLogo } from "../../icons/bitcoin.svg";
 import { ReactComponent as EthereumLogo } from "../../icons/ethereum.svg";
@@ -12,8 +11,7 @@ import {
   StyledProgressContainer,
   StyledProgress,
 } from "../../ui";
-import { nFormatter } from "../../utils";
-import usePrevious from "../../utils";
+import { nFormatter, usePrevious } from "../../utils";
 
 export default function MarketData(props) {
   const theme = useTheme();
@@ -54,7 +52,7 @@ export default function MarketData(props) {
             market_cap_percentage: { btc, eth },
           },
         },
-      } = await axios("https://api.coingecko.com/api/v3/global");
+      } = await axios(`${process.env.REACT_APP_API_ENDPOINT}/global`);
       setActive_Cryptocurrencies(active_cryptocurrencies);
       setMarkets(markets);
       setTotal_Market_Cap(total_market_cap[currency.toLowerCase()]);

@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 import {
   StyledPriceChartContainer,
   StyledVolumeChartContainer,
   StyledTimeFrameChanger,
   StyledFlexContainer,
 } from "ui";
-import { getFormattedDate } from "utils";
-import usePrevious from "utils";
+import { getActiveTimeFrame, usePrevious } from "utils";
+import { getCharts } from "store/charts/charts.actions";
 
 export default function ChartsContainer(props) {
-  const { currency, currencySymbol } = useSelector(
-    (state) => state.currencyDetails
+  const dispatch = useDispatch();
+  const { currencySymbol } = useSelector((state) => state.currencyDetails);
+  const { isLoading, dates, prices, volumes } = useSelector(
+    (state) => state.charts
   );
-  const [dates, setDates] = useState([]);
-  const [prices, setPrices] = useState([]);
-  const [volumes, setVolumes] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [timeFrames, setTimeFrames] = useState([
     {
       isActive: true,
@@ -55,7 +52,7 @@ export default function ChartsContainer(props) {
   const prevValues = usePrevious({ currencySymbol, timeFrames });
 
   useEffect(() => {
-    fetchChartData();
+    dispatch(getCharts(getActiveTimeFrame(timeFrames)));
   }, []);
 
   useEffect(() => {
@@ -63,12 +60,11 @@ export default function ChartsContainer(props) {
       prevValues?.currencySymbol !== currencySymbol ||
       prevValues?.timeFrames !== timeFrames
     ) {
-      fetchChartData();
+      dispatch(getCharts(getActiveTimeFrame(timeFrames)));
     }
   }, [currencySymbol, timeFrames]);
 
   const changeTimeFrame = ({ target: { innerText } }) => {
-    setIsLoading(true);
     const newTimeFrames = timeFrames.map((object) => {
       if (object.displayValue !== innerText) {
         if (object.isActive) {
@@ -85,40 +81,6 @@ export default function ChartsContainer(props) {
     setTimeFrames(newTimeFrames);
   };
 
-  const fetchChartData = async () => {
-    const activeTimeFrame = timeFrames.filter(({ isActive }) => isActive)[0]
-      .value;
-    try {
-      const {
-        data: { prices, total_volumes },
-      } = await axios(
-        `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${currency}&days=${activeTimeFrame}&interval=${
-          activeTimeFrame <= 90 ? "hourly" : "daily"
-        }`
-      );
-
-      const { dateArr, priceArr } = prices.reduce(
-        ({ dateArr, priceArr }, [date, price]) => ({
-          dateArr: [...dateArr, getFormattedDate(date)],
-          priceArr: [...priceArr, price],
-        }),
-        { dateArr: [], priceArr: [] }
-      );
-
-      const { volumesArr } = total_volumes.reduce(
-        ({ volumesArr }, [date, volume]) => ({
-          volumesArr: [...volumesArr, volume],
-        }),
-        { volumesArr: [] }
-      );
-      setDates(dateArr);
-      setPrices(priceArr);
-      setVolumes(volumesArr);
-      setIsLoading(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   return (
     <div className={className}>
       <StyledFlexContainer justifyContent="space-between" margin="0 0 60px 0">

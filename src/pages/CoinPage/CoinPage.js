@@ -15,8 +15,12 @@ import {
   YourSummary,
   CurrencyConverter,
 } from "components";
-import { formatCoinName, toUTCDate, getFormattedDate } from "utils";
-import usePrevious from "utils";
+import {
+  formatCoinName,
+  toUTCDate,
+  getFormattedDate,
+  usePrevious,
+} from "utils";
 
 export default function CoinPage(props) {
   const { currency, currencySymbol } = useSelector(
@@ -102,7 +106,7 @@ export default function CoinPage(props) {
 
   const fetchCoinData = async (coinName) => {
     const { data } = await axios(
-      `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=false`
+      `${process.env.REACT_APP_API_ENDPOINT}/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=false`
     );
     setData(data);
     setDataReady(true);
@@ -116,7 +120,9 @@ export default function CoinPage(props) {
       const {
         data: { prices, total_volumes },
       } = await axios(
-        `https://api.coingecko.com/api/v3/coins/${getCoinName()}/market_chart?vs_currency=${currency}&days=${activeTimeFrame}&interval=${
+        `${
+          process.env.REACT_APP_API_ENDPOINT
+        }/coins/${getCoinName()}/market_chart?vs_currency=${currency}&days=${activeTimeFrame}&interval=${
           activeTimeFrame <= 90 ? "hourly" : "daily"
         }`
       );
