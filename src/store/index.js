@@ -9,6 +9,7 @@ import storage from "redux-persist/lib/storage"; // defaults to localStorage for
 import currencyDetails from "./currency/currency.store";
 import theme from "./theme/theme.store";
 import charts from "./charts/charts.store";
+import coins from "./coins/coins.store";
 
 const currencyDetailsConfig = {
   key: "currencyDetails",
@@ -25,13 +26,14 @@ const themeConfig = {
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["currencyDetails", "theme"],
+  blacklist: ["currencyDetails", "theme","charts","coins"],
 };
 
 const reducers = combineReducers({
   currencyDetails: persistReducer(currencyDetailsConfig, currencyDetails),
   theme: persistReducer(themeConfig, theme),
   charts,
+  coins,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
