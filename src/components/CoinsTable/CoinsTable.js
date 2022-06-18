@@ -14,8 +14,7 @@ import {
   StyledCoinLink,
   StyledTableSpan,
 } from "ui";
-import { nFormatter } from "utils";
-import usePrevious from "utils";
+import { nFormatter, usePrevious } from "utils";
 
 export default function CoinsTable(props) {
   const { currency, currencySymbol } = useSelector(
@@ -44,7 +43,7 @@ export default function CoinsTable(props) {
   const fetchTableData = async () => {
     try {
       const { data } = await axios(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${
+        `${process.env.REACT_APP_API_ENDPOINT}/coins/markets?vs_currency=${
           currency || "usd"
         }&order=market_cap_desc&per_page=15&page=${page}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
       );

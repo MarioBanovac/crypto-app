@@ -69,7 +69,7 @@ export function getFormattedDate(timestamp) {
   }
 }
 
-export default function usePrevious(value) {
+export function usePrevious(value) {
   const ref = useRef();
   useEffect(() => {
     ref.current = value;
@@ -126,4 +126,8 @@ export function isThemeDark(theme) {
 
 export function isThemeLight(theme) {
   return theme.name === "lightTheme";
+}
+
+export function getActiveTimeFrame(array) {
+  return array.filter(({ isActive }) => isActive)[0].value;
 }

@@ -1,8 +1,14 @@
-import { combineReducers, legacy_createStore as createStore } from "redux";
+import {
+  combineReducers,
+  legacy_createStore as createStore,
+  applyMiddleware,
+} from "redux";
+import thunk from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import currencyDetails from "./currency/currency.store";
 import theme from "./theme/theme.store";
+import charts from "./charts/charts.store";
 
 const currencyDetailsConfig = {
   key: "currencyDetails",
@@ -25,9 +31,10 @@ const persistConfig = {
 const reducers = combineReducers({
   currencyDetails: persistReducer(currencyDetailsConfig, currencyDetails),
   theme: persistReducer(themeConfig, theme),
+  charts,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-export const store = createStore(persistedReducer);
+export const store = createStore(persistedReducer, applyMiddleware(thunk));
 export const persistor = persistStore(store);
