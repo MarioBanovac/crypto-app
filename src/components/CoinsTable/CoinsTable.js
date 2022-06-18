@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 import InfiniteScroll from "react-infinite-scroller";
 import { SpinnerCircular } from "spinners-react";
 import TableChart from "components/TableChart/TableChart";
@@ -14,49 +13,29 @@ import {
   StyledCoinLink,
   StyledTableSpan,
 } from "ui";
-import { nFormatter, usePrevious } from "utils";
+import { numberFormatter, usePrevious } from "utils";
+import { fetchCoins, deleteCoins } from "store/coins/coins.actions";
 
 export default function CoinsTable(props) {
+  const dispatch = useDispatch();
   const { currency, currencySymbol } = useSelector(
     (state) => state.currencyDetails
   );
-  const [tableData, setTableData] = useState([]);
-  const [fakeDates] = useState([...Array(169).fill(0)]);
-  const [page, setPage] = useState(1);
-  const [currencyChanged, setCurrencyChanged] = useState(false);
+
+  const { tableData, fakeDates } = useSelector((state) => state.coins);
+
   const prevValues = usePrevious(currency);
 
   useEffect(() => {
     if (prevValues && prevValues.currency !== currency) {
-      setTableData([]);
-      setPage(1);
-      setCurrencyChanged(true);
+      dispatch(deleteCoins());
+      dispatch(fetchCoins());
     }
   }, [currency]);
 
-  useEffect(() => {
-    if (currencyChanged) {
-      fetchTableData();
-    }
-  }, [currencyChanged]);
-
-  const fetchTableData = async () => {
-    try {
-      const { data } = await axios(
-        `${process.env.REACT_APP_API_ENDPOINT}/coins/markets?vs_currency=${
-          currency || "usd"
-        }&order=market_cap_desc&per_page=15&page=${page}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
-      );
-      setTableData((prevTableData) => {
-        return prevTableData.concat(data);
-      });
-      setPage((prevPage) => prevPage + 1);
-      currencyChanged && setCurrencyChanged(false);
-    } catch (err) {
-      console.log(err);
-    }
+  const getCoins = () => {
+    dispatch(fetchCoins());
   };
-
   const { className } = props;
   return (
     <table className={className}>
@@ -77,7 +56,7 @@ export default function CoinsTable(props) {
         initialLoad={false}
         pageStart={0}
         hasMore={true || false}
-        loadMore={fetchTableData}
+        loadMore={getCoins}
         loader={
           <SpinnerCircular
             style={{
@@ -159,7 +138,7 @@ export default function CoinsTable(props) {
                   <StyledCircle position="absolute" bottom="20px" />
                   <StyledTableSpan bottom="14px" left="15px">
                     {currencySymbol}
-                    {nFormatter(total_volume, 2)}
+                    {numberFormatter(total_volume, 2)}
                   </StyledTableSpan>
                   <StyledProgress
                     percent={
@@ -175,7 +154,7 @@ export default function CoinsTable(props) {
                   />
                   <StyledTableSpan bottom="14px" right="0px">
                     {currencySymbol}
-                    {nFormatter(market_cap, 2)}
+                    {numberFormatter(market_cap, 2)}
                   </StyledTableSpan>
                 </StyledProgressContainer>
               </td>
@@ -184,7 +163,7 @@ export default function CoinsTable(props) {
                   <StyledCircle position="absolute" bottom="20px" />
                   <StyledTableSpan bottom="14px" left="15px">
                     {currencySymbol}
-                    {nFormatter(circulating_supply, 2)}
+                    {numberFormatter(circulating_supply, 2)}
                   </StyledTableSpan>
                   <StyledProgress
                     percent={(circulating_supply / total_supply) * 100}
@@ -197,7 +176,7 @@ export default function CoinsTable(props) {
                   <StyledTableSpan bottom="14px" right="0px">
                     {total_supply === null
                       ? "∞"
-                      : currencySymbol + nFormatter(total_supply, 2)}
+                      : currencySymbol + numberFormatter(total_supply, 2)}
                   </StyledTableSpan>
                 </StyledProgressContainer>
               </td>
