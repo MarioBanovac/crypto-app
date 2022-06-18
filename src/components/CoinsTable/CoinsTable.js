@@ -13,7 +13,7 @@ import {
   StyledCoinLink,
   StyledTableSpan,
 } from "ui";
-import { nFormatter, usePrevious } from "utils";
+import { numberFormatter, usePrevious } from "utils";
 import { fetchCoins, deleteCoins } from "store/coins/coins.actions";
 
 export default function CoinsTable(props) {
@@ -138,7 +138,7 @@ export default function CoinsTable(props) {
                   <StyledCircle position="absolute" bottom="20px" />
                   <StyledTableSpan bottom="14px" left="15px">
                     {currencySymbol}
-                    {nFormatter(total_volume, 2)}
+                    {numberFormatter(total_volume, 2)}
                   </StyledTableSpan>
                   <StyledProgress
                     percent={
@@ -154,7 +154,7 @@ export default function CoinsTable(props) {
                   />
                   <StyledTableSpan bottom="14px" right="0px">
                     {currencySymbol}
-                    {nFormatter(market_cap, 2)}
+                    {numberFormatter(market_cap, 2)}
                   </StyledTableSpan>
                 </StyledProgressContainer>
               </td>
@@ -163,7 +163,7 @@ export default function CoinsTable(props) {
                   <StyledCircle position="absolute" bottom="20px" />
                   <StyledTableSpan bottom="14px" left="15px">
                     {currencySymbol}
-                    {nFormatter(circulating_supply, 2)}
+                    {numberFormatter(circulating_supply, 2)}
                   </StyledTableSpan>
                   <StyledProgress
                     percent={(circulating_supply / total_supply) * 100}
@@ -176,7 +176,7 @@ export default function CoinsTable(props) {
                   <StyledTableSpan bottom="14px" right="0px">
                     {total_supply === null
                       ? "∞"
-                      : currencySymbol + nFormatter(total_supply, 2)}
+                      : currencySymbol + numberFormatter(total_supply, 2)}
                   </StyledTableSpan>
                 </StyledProgressContainer>
               </td>

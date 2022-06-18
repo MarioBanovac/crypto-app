@@ -11,7 +11,7 @@ import {
   StyledProgressContainer,
   StyledProgress,
 } from "../../ui";
-import { nFormatter, usePrevious } from "../../utils";
+import { numberFormatter, usePrevious } from "../../utils";
 
 export default function MarketData(props) {
   const theme = useTheme();
@@ -74,7 +74,7 @@ export default function MarketData(props) {
       <div>
         <StyledCircle />
         {currencySymbol}
-        {nFormatter(total_market_cap, 2)}
+        {numberFormatter(total_market_cap, 2)}
         <FontAwesomeIcon
           icon={
             market_cap_change_percentage_24h_usd > 0 ? faCaretUp : faCaretDown
@@ -91,7 +91,7 @@ export default function MarketData(props) {
       <div>
         <StyledCircle />
         {currencySymbol}
-        {nFormatter(total_volume, 2)}
+        {numberFormatter(total_volume, 2)}
         <StyledProgressContainer width={80} marginLeft={10}>
           <StyledProgress percent={(total_volume / total_market_cap) * 100} />
         </StyledProgressContainer>
