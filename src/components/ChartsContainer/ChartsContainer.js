@@ -52,15 +52,20 @@ export default function ChartsContainer(props) {
   const prevValues = usePrevious({ currencySymbol, timeFrames });
 
   useEffect(() => {
-    dispatch(getCharts(getActiveTimeFrame(timeFrames)));
+    (function everyMinuteFetch() {
+      dispatch(getCharts(getActiveTimeFrame(timeFrames)));
+      setTimeout(everyMinuteFetch, 60 * 1000);
+    })();
   }, []);
 
   useEffect(() => {
-    if (
-      prevValues?.currencySymbol !== currencySymbol ||
-      prevValues?.timeFrames !== timeFrames
-    ) {
-      dispatch(getCharts(getActiveTimeFrame(timeFrames)));
+    if (prevValues) {
+      if (
+        prevValues.currencySymbol !== currencySymbol ||
+        prevValues.timeFrames !== timeFrames
+      ) {
+        dispatch(getCharts(getActiveTimeFrame(timeFrames)));
+      }
     }
   }, [currencySymbol, timeFrames]);
 
