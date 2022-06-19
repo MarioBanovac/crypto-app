@@ -13,6 +13,7 @@ import {
   CoinLink,
   PercentageRounder,
   RadioButton,
+  ScrollToTop,
 } from "components";
 import { isThemeDark, isThemeLight } from "utils";
 import Polygon from "icons/polygon.svg";
@@ -681,4 +682,12 @@ export const StyledNumberFormat = styled(NumberFormat)`
   border: ${({ border }) => border};
   caret-color: ${({ caretColor }) => caretColor};
   color: ${({ color }) => color};
+`;
+
+export const StyledScrollToTop = styled(ScrollToTop)`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  color: ${({ theme }) => theme.mainPositive};
 `;
