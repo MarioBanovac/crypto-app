@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { SpinnerCircular } from "spinners-react";
-import axios from "axios";
 import {
   CoinPageContainer,
   StyledFlexContainer,
@@ -15,24 +14,37 @@ import {
   YourSummary,
   CurrencyConverter,
 } from "components";
-import {
-  formatCoinName,
-  toUTCDate,
-  getFormattedDate,
-  usePrevious,
-} from "utils";
+import { formatCoinName, getActiveTimeFrame, usePrevious } from "utils";
+import { getCoinData } from "store/coin/coin.actions";
+import { getCharts } from "store/charts/charts.actions";
 
 export default function CoinPage(props) {
+  const dispatch = useDispatch();
   const { currency, currencySymbol } = useSelector(
     (state) => state.currencyDetails
   );
-
-  const [data, setData] = useState({});
-  const [dates, setDates] = useState([]);
-  const [prices, setPrices] = useState([]);
-  const [volumes, setVolumes] = useState([]);
-  const [dataReady, setDataReady] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const { dates, prices } = useSelector((state) => state.charts);
+  const {
+    imageUrl,
+    coinName,
+    coinSymbol,
+    homepage,
+    price,
+    allTimeHigh,
+    allTimeHighDate,
+    allTimeLow,
+    allTimeLowDate,
+    price_change_percentage_24h_in_currency,
+    marketCap,
+    fullyDilutedValuation,
+    volume24H,
+    currentPrice,
+    circulatingSupply,
+    maxSupply,
+    description,
+    coinLinks,
+    isLoading,
+  } = useSelector((state) => state.coin);
 
   const [timeFrames, setTimeFrames] = useState([
     {
@@ -84,7 +96,7 @@ export default function CoinPage(props) {
   const getCoinName = () => formatCoinName(pathname.split("/")[2]);
 
   useEffect(() => {
-    fetchChartData();
+    dispatch(getCharts(getActiveTimeFrame(timeFrames)));
   }, []);
 
   useEffect(() => {
@@ -92,93 +104,17 @@ export default function CoinPage(props) {
       prevValues?.currencySymbol !== currencySymbol ||
       prevValues?.timeFrames !== timeFrames
     ) {
-      fetchChartData();
+      dispatch(getCharts(getActiveTimeFrame(timeFrames)));
     }
   }, [currencySymbol, timeFrames]);
 
   useEffect(() => {
-    fetchCoinData(getCoinName());
+    dispatch(getCoinData(getCoinName()));
   }, []);
 
   useEffect(() => {
-    fetchCoinData(getCoinName());
+    dispatch(getCoinData(getCoinName()));
   }, [currency]);
-
-  const fetchCoinData = async (coinName) => {
-    const { data } = await axios(
-      `${process.env.REACT_APP_API_ENDPOINT}/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=false`
-    );
-    setData(data);
-    setDataReady(true);
-    setIsLoading(false);
-  };
-
-  const fetchChartData = async () => {
-    const activeTimeFrame = timeFrames.filter(({ isActive }) => isActive)[0]
-      .value;
-    try {
-      const {
-        data: { prices, total_volumes },
-      } = await axios(
-        `${
-          process.env.REACT_APP_API_ENDPOINT
-        }/coins/${getCoinName()}/market_chart?vs_currency=${currency}&days=${activeTimeFrame}&interval=${
-          activeTimeFrame <= 90 ? "hourly" : "daily"
-        }`
-      );
-
-      const { dateArr, priceArr } = prices.reduce(
-        ({ dateArr, priceArr }, [date, price]) => ({
-          dateArr: [...dateArr, getFormattedDate(date)],
-          priceArr: [...priceArr, price],
-        }),
-        { dateArr: [], priceArr: [] }
-      );
-
-      const { volumesArr } = total_volumes.reduce(
-        ({ volumesArr }, [date, volume]) => ({
-          volumesArr: [...volumesArr, volume],
-        }),
-        { volumesArr: [] }
-      );
-      setDates(dateArr);
-      setPrices(priceArr);
-      setVolumes(volumesArr);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const imageUrl = dataReady && data.image.small;
-  const coinName = dataReady && data.name;
-  const coinSymbol = dataReady && data.symbol;
-  const homepage = dataReady && new URL(data.links.homepage[0]).hostname;
-  const price =
-    dataReady && data.market_data.current_price[currency.toLowerCase()];
-  const allTimeHigh = dataReady && data.market_data.ath[currency.toLowerCase()];
-  const allTimeHighDate =
-    dataReady && toUTCDate(data.market_data.ath_date[currency.toLowerCase()]);
-  const allTimeLow = dataReady && data.market_data.atl[currency.toLowerCase()];
-  const allTimeLowDate =
-    dataReady && toUTCDate(data.market_data.atl_date[currency.toLowerCase()]);
-  const price_change_percentage_24h_in_currency =
-    dataReady &&
-    data.market_data.price_change_percentage_24h_in_currency[
-      currency.toLowerCase()
-    ];
-  const marketCap =
-    dataReady && data.market_data.market_cap[currency.toLowerCase()];
-  const fullyDilutedValuation =
-    dataReady &&
-    data.market_data.fully_diluted_valuation[currency.toLowerCase()];
-  const volume24H =
-    dataReady && data.market_data.total_volume[currency.toLowerCase()];
-  const currentPrice =
-    dataReady && data.market_data.current_price[currency.toLowerCase()];
-  const circulatingSupply = dataReady && data.market_data.circulating_supply;
-  const maxSupply = dataReady && data.market_data.max_supply;
-  const description = dataReady && data.description.en;
-  const coinLinks = dataReady && data.links.blockchain_site;
 
   return (
     <>
