@@ -23,3 +23,4 @@ export { default as CurrencyInput } from "./CurrencyInput";
 export { default as CoinInput } from "./CoinInput";
 export { default as SearchIcon } from "./SearchIcon";
 export { default as ChartsContainer } from "./ChartsContainer";
+export { default as ScrollToTop } from "./ScrollToTop";

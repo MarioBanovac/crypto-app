@@ -4,6 +4,7 @@ import {
   StyledChartsContainer,
   StyledCoinsTableContainer,
 } from "ui";
+import { StyledScrollToTop } from "ui";
 
 export default function CoinsPage() {
   return (
@@ -11,6 +12,7 @@ export default function CoinsPage() {
       <h1>Your overview</h1>
       <StyledChartsContainer />
       <StyledCoinsTableContainer />
+      <StyledScrollToTop />
     </CoinsPageContainer>
   );
 }
