@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { useTheme } from "styled-components";
@@ -12,60 +11,33 @@ import {
   StyledProgress,
 } from "../../ui";
 import { numberFormatter, usePrevious } from "../../utils";
+import { getNavbarMarketData } from "store/marketData/marketData.actions";
 
 export default function MarketData(props) {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const { currency } = useSelector((state) => state.currencyDetails);
   const { currencySymbol } = useSelector((state) => state.currencyDetails);
-  const prevValues = usePrevious(currency);
-  const [active_cryptocurrencies, setActive_Cryptocurrencies] = useState("");
-  const [markets, setMarkets] = useState("");
-  const [total_market_cap, setTotal_Market_Cap] = useState("");
-  const [total_volume, setTotal_Volume] = useState("");
-  const [
+  const {
+    active_cryptocurrencies,
+    markets,
+    total_market_cap,
     market_cap_change_percentage_24h_usd,
-    setMarket_Cap_Change_Percentage_24h_Usd,
-  ] = useState("");
-  const [bitcoinPercentage, setBitcoinPercentage] = useState("");
-  const [ethereumPercentage, setEthereumPercentage] = useState("");
+    total_volume,
+    bitcoinPercentage,
+    ethereumPercentage,
+  } = useSelector((state) => state.marketData);
+  const prevValues = usePrevious(currency);
 
   useEffect(() => {
-    getNavbarMarketData();
+    dispatch(getNavbarMarketData());
   }, []);
 
   useEffect(() => {
     if (prevValues && prevValues.currency !== currency) {
-      getNavbarMarketData();
+      dispatch(getNavbarMarketData());
     }
   }, [currency]);
-
-  const getNavbarMarketData = async () => {
-    try {
-      const {
-        data: {
-          data: {
-            active_cryptocurrencies,
-            markets,
-            total_market_cap,
-            market_cap_change_percentage_24h_usd,
-            total_volume,
-            market_cap_percentage: { btc, eth },
-          },
-        },
-      } = await axios(`${process.env.REACT_APP_API_ENDPOINT}/global`);
-      setActive_Cryptocurrencies(active_cryptocurrencies);
-      setMarkets(markets);
-      setTotal_Market_Cap(total_market_cap[currency.toLowerCase()]);
-      setMarket_Cap_Change_Percentage_24h_Usd(
-        market_cap_change_percentage_24h_usd
-      );
-      setTotal_Volume(total_volume[currency.toLowerCase()]);
-      setBitcoinPercentage(btc);
-      setEthereumPercentage(eth);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   return (
     <div className={props.className}>
