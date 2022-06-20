@@ -10,6 +10,7 @@ import currencyDetails from "./currency/currency.store";
 import theme from "./theme/theme.store";
 import charts from "./charts/charts.store";
 import coins from "./coins/coins.store";
+import coin from "./coin/coin.store";
 import marketData from "./marketData/marketData.store";
 
 const currencyDetailsConfig = {
@@ -27,6 +28,7 @@ const themeConfig = {
 const persistConfig = {
   key: "root",
   storage,
+  blacklist: ["currencyDetails", "theme", "charts", "coins", "coin"],
   blacklist: ["currencyDetails", "theme", "charts", "coins", "marketData"],
 };
 
@@ -35,6 +37,7 @@ const reducers = combineReducers({
   theme: persistReducer(themeConfig, theme),
   charts,
   coins,
+  coin,
   marketData,
 });
 
